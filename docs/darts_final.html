@@ -15,9 +15,9 @@
   --bs-link-color:#3F51D8;--bs-link-hover-color:#2F3FB8;--bs-focus-ring-color:rgba(63,81,216,.25);
   --bs-border-radius:.5rem;--bs-border-radius-sm:.375rem;--bs-border-radius-lg:.75rem;
   --bg:#ECEEF3;--card:#fff;--ink:#1C2030;--mut:#5F6678;--line:#DCE0E8;--line2:#C9CFDA;
-  --acc:#3F51D8;--live:#D2401D;--bl:#7C87A0;--tr:#C62F2F;--db:#14804C;--num:var(--bs-body-font-family)}
-.btn-primary{--bs-btn-color:#fff;--bs-btn-bg:var(--acc);--bs-btn-border-color:var(--acc);--bs-btn-hover-color:#fff;--bs-btn-hover-bg:#3445BC;--bs-btn-hover-border-color:#3445BC;--bs-btn-active-color:#fff;--bs-btn-active-bg:#2B3AA0;--bs-btn-active-border-color:#2B3AA0;--bs-btn-focus-shadow-rgb:63,81,216;font-weight:600}
-.btn-outline-secondary{--bs-btn-color:#2C3242;--bs-btn-bg:#fff;--bs-btn-border-color:#C9CFDA;--bs-btn-hover-color:#000;--bs-btn-hover-bg:#fff;--bs-btn-hover-border-color:#8E98AD;--bs-btn-active-color:#000;--bs-btn-active-bg:#fff;--bs-btn-active-border-color:#8E98AD}
+  --acc:#3F51D8;--btn:#3F51D8;--sel-bg:#1C2030;--sel-fg:#fff;--live:#D2401D;--bl:#7C87A0;--tr:#C62F2F;--db:#14804C;--num:var(--bs-body-font-family)}
+.btn-primary{--bs-btn-color:#fff;--bs-btn-bg:var(--btn);--bs-btn-border-color:var(--btn);--bs-btn-hover-color:#fff;--bs-btn-hover-bg:#3445BC;--bs-btn-hover-border-color:#3445BC;--bs-btn-active-color:#fff;--bs-btn-active-bg:#2B3AA0;--bs-btn-active-border-color:#2B3AA0;--bs-btn-focus-shadow-rgb:63,81,216;font-weight:600}
+.btn-outline-secondary{--bs-btn-color:var(--ink);--bs-btn-bg:var(--card);--bs-btn-border-color:var(--line2);--bs-btn-hover-color:var(--ink);--bs-btn-hover-bg:var(--card);--bs-btn-hover-border-color:var(--mut);--bs-btn-active-color:var(--ink);--bs-btn-active-bg:var(--card);--bs-btn-active-border-color:var(--mut)}
 .navbar{padding:.9rem 0}
 .navbar-brand{font-size:1.1rem;font-style:italic;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
 .nav .nav-link{color:var(--mut);background:none;border:0;font-weight:500;padding:.4rem .9rem}
@@ -27,7 +27,7 @@
 .alert{position:sticky;top:0;z-index:5;font-weight:600}
 
 /* ---- layout ---- */
-.shell{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.5rem;margin-bottom:2rem}
+.shell{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:1.5rem;margin-bottom:2rem}
 .hd{font-size:1.5rem;font-weight:700;letter-spacing:-.01em;margin:0 0 0.875rem}
 h4{margin:0 0 0.625rem;font-size:1.05rem;font-weight:700;color:var(--ink)}
 body{font-variant-numeric:tabular-nums}
@@ -36,9 +36,9 @@ body{font-variant-numeric:tabular-nums}
 .shell>.sec:first-child,.col-lg-5>.sec:first-child,.panel>.sec:first-child{border-top:0;padding-top:0}
 .hint{margin:0.625rem 0;color:var(--mut)}.hint b{color:var(--ink)}
 .panel{background:var(--bs-tertiary-bg);border-radius:var(--bs-border-radius-lg);padding:1.125rem 1.25rem}
-.lv{display:flex;align-items:center;gap:0.625rem;margin-bottom:0.75rem}
+.lv{display:flex;align-items:center;gap:0.625rem;margin-bottom:0.75rem;flex-wrap:wrap;row-gap:.4rem}
 .bd{max-width:32.5rem;margin:0.75rem auto 0}
-.live{display:inline-flex;align-items:center;gap:0.375rem;padding:2px 0.625rem;border-radius:62.4375rem;background:#fff;color:var(--ink);font-size:0.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.7}
+.live{display:inline-flex;align-items:center;gap:0.375rem;padding:2px 0.625rem;border-radius:62.4375rem;background:var(--bs-secondary-bg);color:var(--ink);font-size:0.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.7}
 .live:before{content:"";width:0.5rem;height:0.5rem;border-radius:50%;background:var(--tr)}
 .turn{display:flex;align-items:baseline;gap:0.75rem;flex-wrap:wrap;padding:2px 0 2px 0.875rem;margin-bottom:0.375rem;border-left:0.25rem solid var(--acc)}
 .turn small{font-size:0.8125rem;color:var(--mut)}
@@ -50,7 +50,7 @@ body{font-variant-numeric:tabular-nums}
 .pills .btn-primary,.pills .btn-primary:hover{background:var(--bs-secondary-bg);color:var(--ink);font-weight:700}
 
 /* ---- match cards (the live match list) ---- */
-.pl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.375rem 1rem;padding:0.875rem 1rem 0;margin-bottom:0.625rem;background:#fff;border:1px solid var(--line);border-radius:var(--bs-border-radius-lg);overflow:hidden;color:var(--ink)}
+.pl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.375rem 1rem;padding:0.875rem 1rem 0;margin-bottom:0.625rem;background:var(--card);border:1px solid var(--line);border-radius:var(--bs-border-radius-lg);overflow:hidden;color:var(--ink)}
 .pl.cur{background:var(--live);border-color:var(--live);color:#fff}
 .pl h3{margin:0;font-size:1rem;font-weight:700;display:flex;gap:0.375rem 0.625rem;align-items:center;flex-wrap:wrap;min-width:0}
 .mem{display:inline-flex;gap:0.625rem;font-size:0.8125rem;font-weight:400;color:var(--mut)}
@@ -70,7 +70,7 @@ body{font-variant-numeric:tabular-nums}
 .st b{font-size:1.1875rem;font-weight:700;line-height:1.1}
 .dl{font-size:0.75rem;font-weight:600;margin-left:0.3125rem}.up{color:var(--db)}.dn{color:var(--tr)}
 .pl.cur .bdg,.pl.cur .live{color:#fff;border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.18)}
-.pl.cur .mem,.pl.cur .st small,.pl.cur .fin .mut{color:#fff}
+.pl.cur .mem,.pl.cur .st small,.pl.cur .fin .mut,.pl.cur .mut{color:#fff}
 .pl.cur .mem .now{color:#fff;border-bottom-color:#fff}
 .pl.cur .dt{--c:rgba(255,255,255,.8);color:#fff}
 .pl.cur .dt.e{background:none;color:#fff}
@@ -89,7 +89,7 @@ th{font-size:0.75rem;font-weight:600;color:var(--mut)}
 .mmt .cl{color:var(--db)}.mmt .cur{background:color-mix(in srgb,var(--live) 9%,transparent)}
 .hist td:nth-child(2){text-align:left}
 .seg{cursor:pointer;stroke:#111;stroke-width:1}.seg:hover{filter:brightness(1.25)}
-.tm{border:1px solid var(--line2);border-radius:var(--bs-border-radius);padding:0.625rem 0.75rem;margin-bottom:0.5rem;background:#fff}
+.tm{border:1px solid var(--line2);border-radius:var(--bs-border-radius);padding:0.625rem 0.75rem;margin-bottom:0.5rem;background:var(--card)}
 .tm.act{border-color:var(--acc)}
 .mm{margin:0.5rem 0 0;padding-left:1.375rem}.mm li{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.375rem,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0.25rem 0 1rem}
@@ -102,7 +102,22 @@ th{font-size:0.75rem;font-weight:600;color:var(--mut)}
 .gb{height:0.375rem;background:var(--line);border-radius:3px;overflow:hidden}.gb i{display:block;height:100%}
 .g b{font-size:0.875rem;font-weight:600;text-align:right}
 @media(max-width:576px){.shell{padding:1rem;border-radius:.75rem}.st{grid-template-columns:repeat(2,1fr)}.st>div:nth-child(n+3){border-top:1px solid var(--line)}.st>div:nth-child(3){border-left:0}.panel{padding:0.875rem}.hd{font-size:1.3rem}}
-.choose{background:#fff;border:1px solid var(--acc);border-radius:var(--bs-border-radius);padding:0.625rem 0.75rem;margin:0.5rem 0}
+.choose{background:var(--card);border:1px solid var(--acc);border-radius:var(--bs-border-radius);padding:0.625rem 0.75rem;margin:0.5rem 0}
+
+/* ---- dark theme: near-black, cool greys; the board and the orange live card keep their colours ---- */
+[data-bs-theme=dark]{
+  --bs-body-bg:#0F1114;--bs-body-color:#E7EAEE;--bs-secondary-color:#98A1AD;--bs-tertiary-bg:#1D2128;--bs-secondary-bg:#262B33;--bs-border-color:#2A2F36;
+  --bs-link-color:#8E9BFF;--bs-link-hover-color:#B0BAFF;--bs-focus-ring-color:rgba(142,155,255,.35);
+  --bg:#0F1114;--card:#171A1F;--ink:#E7EAEE;--mut:#98A1AD;--line:#2A2F36;--line2:#3A414A;
+  --acc:#8E9BFF;--btn:#4A5CE8;--sel-bg:#E7EAEE;--sel-fg:#0F1114;--bl:#8A94A8;--tr:#F07A6B;--db:#47C08A}
+/* ---- total entry keypad ---- */
+.kpw{max-width:26rem;margin:.75rem auto 0}
+.kd{font-size:3.5rem;font-weight:700;line-height:1;text-align:center;padding:.5rem;margin-bottom:.6rem;min-height:4.5rem;background:var(--card);border:1px solid var(--line);border-radius:var(--bs-border-radius-lg)}
+.kg{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.kg .btn{min-height:3.6rem;font-size:1.4rem;font-weight:600}
+.kq{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem;justify-content:center}
+.seg.hit{stroke:#fff;stroke-width:4;filter:brightness(1.5)}
+.heat{display:block;width:100%;max-width:22rem;margin:0 auto}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ---- scale: everything is in rem, so a TV or large monitor simply raises the root size ---- */
@@ -114,7 +129,7 @@ html{font-size:16px}
 @media(min-width:3800px){html{font-size:42px}}
 .container{max-width:82rem}
 /* ---- hierarchy: the accent colour is reserved for the one primary action; selections are ink ---- */
-.btn-dark{--bs-btn-color:#fff;--bs-btn-bg:#1C2030;--bs-btn-border-color:#1C2030;--bs-btn-hover-color:#fff;--bs-btn-hover-bg:#2C3248;--bs-btn-hover-border-color:#2C3248;--bs-btn-active-color:#fff;--bs-btn-active-bg:#000;--bs-btn-active-border-color:#000;font-weight:600}
+.btn-dark{--bs-btn-color:var(--sel-fg);--bs-btn-bg:var(--sel-bg);--bs-btn-border-color:var(--sel-bg);--bs-btn-hover-color:var(--sel-fg);--bs-btn-hover-bg:var(--sel-bg);--bs-btn-hover-border-color:var(--sel-bg);--bs-btn-active-color:var(--sel-fg);--bs-btn-active-bg:var(--sel-bg);--bs-btn-active-border-color:var(--sel-bg);font-weight:600}
 .pills .btn-dark,.pills .btn-dark:hover{background:var(--bs-secondary-bg);color:var(--ink);font-weight:700;border:0}
 .startbar{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line)}
 .lobby-note{color:var(--mut);margin:.5rem 0 0}
@@ -127,10 +142,13 @@ table.table th{color:var(--mut);font-weight:600}
 /* ---- the board never pushes the controls off a short laptop screen ---- */
 .bd{max-width:clamp(18rem,calc(100vh - 22rem),32.5rem)}
 /* ---- phones: one compact nav row, no stats grid on the cards, so the board is reachable without scrolling ---- */
-@media(max-width:991.98px){.col-lg-5{display:contents}.col-lg-7{order:1}.hsec{order:2}}
+.cards,.hsec,.col-lg-5,.col-lg-7{min-width:0}
+@media(max-width:991.98px){.col-lg-5{display:contents}.cards,.hsec{flex:0 0 100%;width:100%;max-width:100%;padding-left:calc(var(--bs-gutter-x)*.5);padding-right:calc(var(--bs-gutter-x)*.5);margin-top:var(--bs-gutter-y)}.col-lg-7{order:1}.hsec{order:2}}
+@media(min-width:576px) and (max-width:991.98px){.cards{display:grid;grid-template-columns:1fr 1fr;gap:0 .75rem}.cards>.hd,.cards>.sec{grid-column:1/-1}}
 @media(max-width:767px){.pl .st{display:none}.cards>.hd{display:none}}
 @media(max-width:576px){.navbar{padding:.5rem 0}.navbar .container{flex-wrap:nowrap}.navbar-brand{margin-right:.25rem}.nav{flex-wrap:nowrap}.nav .nav-link{padding:.4rem .4rem;font-size:.9rem}}
-@media(max-width:576px){.panel{padding:.7rem}.lv{margin-bottom:.4rem}.turn{margin-bottom:.1rem}.turn b{font-size:1.9rem}.bd{margin-top:.4rem}}
+@media(max-width:576px){.kg{gap:.4rem}.kg .btn{min-height:2.9rem;font-size:1.25rem}.kd{font-size:2.4rem;min-height:3.2rem;padding:.25rem;margin-bottom:.4rem}.kpw>p{display:none}.kq{margin-top:.4rem}.kpw{margin-top:.4rem}.lv>.mut{display:none}.pl{padding-top:.6rem;padding-bottom:.6rem;margin-bottom:.5rem}.dt{height:2.25rem}.panel{padding:.7rem}.lv{margin-bottom:.4rem}.turn{margin-bottom:.1rem}.turn b{font-size:1.9rem}.bd{margin-top:.4rem}}
+@media(max-width:360px){.navbar-brand{font-size:.9rem}.nav .nav-link{padding:.4rem .3rem;font-size:.8rem}}
 @media(pointer:coarse){.btn-sm{min-height:2.5rem}}
 </style></head>
 <body><div id="app"></div>
@@ -162,7 +180,10 @@ const store=(names,fn)=>tx(names,fn).catch(()=>warn('Could not save to this brow
 const byTime=(a,b)=>String(a.time)<String(b.time)?-1:1;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 let players=LS('players')||[],visits=[],queue=[],url=LS('url')||'',cursor=+LS('cursor')||0,curs=LS('curs')||{},fun={mm:[],kl:[],ft:[]},fq={mm:[],kl:[],ft:[]},alertMsg='',DB=null;
-let G=null,hist=[],view='play',sel=[],mode=501,note='',fmt='solo',teams=[{name:'',m:[]},{name:'',m:[]}],at=0,fm='all',SR={},gt='01',lives=3,vpq=3;
+let G=null,hist=[],view='play',sel=[],mode=501,note='',fmt='solo',teams=[{name:'',m:[]},{name:'',m:[]}],at=0,fm='all',SR={},gt='01',lives=3,vpq=3,need=1;
+let theme=LS('theme')||'auto';
+const applyTheme=()=>{const dark=theme==='dark'||(theme==='auto'&&typeof matchMedia==='function'&&matchMedia('(prefers-color-scheme: dark)').matches);if(document.documentElement.setAttribute)document.documentElement.setAttribute('data-bs-theme',dark?'dark':'light')};
+applyTheme();if(typeof matchMedia==='function'&&matchMedia('(prefers-color-scheme: dark)').addEventListener)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(theme==='auto'){applyTheme();render()}});
 const WINT={};
 function rebuildWin(){for(const k in WINT)delete WINT[k];visits.forEach(v=>{if(v.co&&v.team)WINT[v.game]=v.team})}
 const persist=()=>{put('players',players);put('url',url);put('cursor',cursor);put('curs',curs)};
@@ -222,25 +243,45 @@ function startGame(){
   if(gt==='mm')sides.forEach(x=>{x.marks=Object.fromEntries(MT.map(k=>[k,0]));x.mem={}});
   if(gt==='kl')sides.forEach(x=>Object.assign(x,{num:null,lives,alive:true,killer:false,kills:0,darts:0}));
   if(gt==='ft')sides.forEach(x=>Object.assign(x,{qs:[0,0,0,0],goals:0,behinds:0,mem:{}}));
-  note='';G={id:'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),type:gt,mode,lives,teams:T,roster:JSON.stringify(sides.map(x=>x.m)),pl:sides,cur:0,darts:[],start:mode,done:null,last:'',msg:'',phase:gt==='kl'?'pick':'play',out:[],vpq,q:0,round:0};hist=[];render();openCall()}
+  note='';G={id:'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),type:gt,mode,lives,teams:T,roster:JSON.stringify(sides.map(x=>x.m)),pl:sides,cur:0,darts:[],start:mode,done:null,last:'',msg:'',phase:gt==='kl'?'pick':'play',out:[],vpq,q:0,round:0,need:gt==='01'?need:1,lw:sides.map(()=>0),leg:1,starter:0};hist=[];
+  try{localStorage.setItem('setup',JSON.stringify({gt,fmt,mode,sel,teams,need,lives,vpq}))}catch(e){}
+  render();openCall()}
 function thr(d){
-  if(!G||G.done)return;
+  if(!G||G.done||G.legWon||G.pendCo)return;
   if(G.type==='mm')return mmThr(d);if(G.type==='kl')return klThr(d);if(G.type==='ft')return ftThr(d);
   const h={G:JSON.parse(JSON.stringify(G)),added:[]};hist.push(h);
   const p=G.pl[G.cur],who=p.m[p.mi],left=p.rem-val(d);G.darts.push(d);
   const bust=left<0||left===1||(left===0&&d[0]!=='D'&&d!=='50'),win=left===0&&!bust;
   if(!bust)p.rem=left;
-  if(bust||win||G.darts.length===3){
-    const total=bust?0:G.darts.reduce((s,x)=>s+val(x),0);
-    const v={id:'v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),time:new Date().toISOString(),game:G.id,mode:G.mode,player:who,team:G.teams?p.name:'',roster:G.roster,start:G.start,d:[...G.darts],total,bust:+bust,co:+win};
-    visits.push(v);queue.push(v);h.added.push(v.id);store(['visits','queue'],(a,b)=>{a.put(v);b.put(v)});
-    if(bust)p.rem=G.start;
-    G.last=who+': '+G.darts.map(lbl).join(' ')+(bust?' (bust)':' = '+total);
-    if(win){G.done=p.name;if(v.team)WINT[G.id]=v.team;if(url)setTimeout(sync,300);say('Game shot! '+p.name+' wins the leg.')}
-    else{p.mi=(p.mi+1)%p.m.length;G.cur=(G.cur+1)%G.pl.length;G.darts=[];G.start=G.pl[G.cur].rem;say(bust?'Bust':spoken(total),turnCall())}}
+  if(bust||win||G.darts.length===3)visitDone(h,p,who,G.darts,bust?0:G.darts.reduce((s,x)=>s+val(x),0),bust,win);
   persist();render()}
+/* A finished visit, however it was entered (dart by dart or as a total): record it, then game shot / next thrower. */
+function visitDone(h,p,who,darts,total,bust,win){
+  const v={id:'v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),time:new Date().toISOString(),game:G.id,mode:G.mode,player:who,team:G.teams?p.name:'',roster:G.roster,start:G.start,d:[...darts],total,bust:+bust,co:+win};
+  visits.push(v);queue.push(v);h.added.push(v.id);store(['visits','queue'],(a,b)=>{a.put(v);b.put(v)});
+  if(bust)p.rem=G.start;
+  G.last=who+': '+(darts[0]==='?'?'':darts.map(lbl).join(' ')+' = ')+(bust?'bust':total);
+  if(win){
+    if(v.team)WINT[G.id]=v.team;if(url)setTimeout(sync,300);
+    if(G.need>1&&++G.lw[G.cur]<G.need){G.legWon=p.name;say('Game shot! '+p.name+' wins the leg.')}
+    else{G.done=p.name;say(G.need>1?'Game shot, and the match! '+p.name+' wins.':'Game shot! '+p.name+' wins the leg.')}}
+  else{p.mi=(p.mi+1)%p.m.length;G.cur=(G.cur+1)%G.pl.length;G.darts=[];G.start=G.pl[G.cur].rem;say(bust?'Bust':spoken(total),turnCall())}}
+/* Total entry: the whole visit typed or tapped at once. A finish asks how many darts it took. */
+let KP='',entryMode=LS('entry')||'board';
+function entry(total){
+  if(!G||G.type!=='01'||G.done||G.legWon||G.pendCo||!(total>=0&&total<=180))return;
+  if(G.pl[G.cur].rem-total===0){G.pendCo=total;KP='';return render()}
+  entryGo(total,3)}
+function entryGo(total,nd){
+  G.pendCo=0;const h={G:JSON.parse(JSON.stringify(G)),added:[]};hist.push(h);
+  const p=G.pl[G.cur],who=p.m[p.mi],left=p.rem-total,bust=left<0||left===1,win=left===0;
+  if(!bust)p.rem=left;
+  KP='';visitDone(h,p,who,Array(nd).fill('?'),bust?0:total,bust,win);persist();render()}
+function nextLeg(){
+  G.starter=(G.starter+1)%G.pl.length;G.leg++;G.legWon=null;G.id='g'+Date.now().toString(36)+Math.random().toString(36).slice(2,4);
+  G.pl.forEach(x=>{x.rem=G.mode;x.mi=0});G.cur=G.starter;G.darts=[];G.start=G.mode;G.last='';render();say(turnCall())}
 function undo(){
-  const h=hist.pop();if(!h)return;if(canSpeak())speechSynthesis.cancel();G=h.G;if(!G.done)delete WINT[G.id];
+  const h=hist.pop();if(!h)return;if(canSpeak())speechSynthesis.cancel();G=h.G;KP='';if(!G.done)delete WINT[G.id];
   visits=visits.filter(v=>!h.added.includes(v.id));queue=queue.filter(v=>!h.added.includes(v.id));store(['visits','queue'],(a,b)=>h.added.forEach(id=>{a.delete(id);b.delete(id)}));(h.rows||[]).forEach(x=>{fun[x.t]=fun[x.t].filter(r=>r.id!==x.id);fq[x.t]=fq[x.t].filter(r=>r.id!==x.id);store([x.t,x.t+'q'],(a,b)=>{a.delete(x.id);b.delete(x.id)})});persist();render()}
 
 /* ---------- sync + export ---------- */
@@ -306,7 +347,7 @@ const gauge=(l,pct,t,c,sub)=>`<div class=g><span>${esc(l)}${sub?`<small>${esc(su
 function cks(vs){
   const f={},d={};
   vs.forEach(v=>{
-    if(v.start<=170&&co(v.start,3)){const o=f[v.start]??={att:0,hit:0,rt:{}};o.att++;if(v.co){o.hit++;const k=v.d.map(lbl).join(' ');o.rt[k]=(o.rt[k]||0)+1}}
+    if(v.start<=170&&co(v.start,3)){const o=f[v.start]??={att:0,hit:0,rt:{}};o.att++;if(v.co){o.hit++;const k=v.d[0]==='?'?'total entered':v.d.map(lbl).join(' ');o.rt[k]=(o.rt[k]||0)+1}}
     let r=v.start;
     v.d.forEach((x,i)=>{if((r>=2&&r<=40&&r%2===0)||r===50){const k=r===50?'Bull':'D'+r/2,o=d[k]??={att:0,hit:0};o.att++;if(v.co&&i===v.d.length-1)o.hit++}r-=val(x)})});
   return{f,d}}
@@ -327,7 +368,7 @@ function draw(vs){
 /* Bootstrap skin: the app renders plain markup; this adds the matching Bootstrap component classes after each render. */
 function skin(){
   const a=$('#app');if(!a||!a.querySelectorAll)return;
-  a.querySelectorAll('button:not(.nav-link)').forEach(b=>{const c=b.classList;c.add('btn',c.contains('on')?'btn-dark':c.contains('pri')?'btn-primary':'btn-outline-secondary');if(b.matches('[data-a=start]'))c.add('btn-lg','w-100');if(b.closest('.mm,.tm,.lv'))c.add('btn-sm');if(b.closest('.pills'))c.add('btn-sm','rounded-pill')});
+  a.querySelectorAll('button:not(.nav-link)').forEach(b=>{const c=b.classList;c.add('btn',c.contains('on')?'btn-dark':c.contains('pri')?'btn-primary':'btn-outline-secondary');if(b.matches('[data-a=start]'))c.add('btn-lg','w-100');if(b.closest('.mm,.tm,.lv,.kq'))c.add('btn-sm');if(b.closest('.pills'))c.add('btn-sm','rounded-pill')});
   a.querySelectorAll('input').forEach(i=>i.classList.add('form-control'));
   a.querySelectorAll('select').forEach(i=>i.classList.add('form-select'));
   a.querySelectorAll('textarea').forEach(i=>i.classList.add('form-control','font-monospace'));
@@ -361,6 +402,14 @@ function ginfo(){
     if(v.co)g.win=v.player});
   Object.values(M).forEach(g=>{if(!g.sides)g.sides=Object.values(g.leg);g.wi=g.win==null?-1:g.sides.findIndex(sd=>sd.includes(g.win))});
   return M}
+/* Where your darts land: the board shaded by how often each segment was hit (tap-the-board visits only). */
+function heat(c){
+  const mx=Math.max(1,...Object.values(c)),fill=k=>{const n=c[k]||0;return n?`color-mix(in srgb,var(--acc) ${Math.round(20+Math.sqrt(n/mx)*70)}%,var(--card))`:'var(--bs-tertiary-bg)'};
+  let h='<svg viewBox="-240 -240 480 480" class=heat role=img aria-label="Heat map of where your darts landed"><circle r="232" style="fill:var(--bs-secondary-bg)"/>';
+  ORDER.forEach((n,i)=>{const a1=i*18-9,a2=i*18+9;
+    [[28,98,'S'],[98,122,'T'],[122,168,'S'],[168,196,'D']].forEach(([r1,r2,t])=>{h+=`<path d="${arc(r1,r2,a1,a2)}" style="fill:${fill(t+n)};stroke:var(--card);stroke-width:1"/>`});
+    const[x,y]=P(215,i*18);h+=`<text x="${x}" y="${y+6}" text-anchor="middle" style="fill:var(--mut);font-size:17px;font-weight:600">${n}</text>`});
+  return h+`<circle r="28" style="fill:${fill('25')};stroke:var(--card)"/><circle r="12" style="fill:${fill('50')};stroke:var(--card)"/></svg>`}
 function stats(){
   const all=[...visits].sort(byTime),names=[...new Set(all.map(v=>v.player))];
   if(!names.length)return'<div class=sec><span class=mut>No games yet. Play a game and your stats will appear here.</span></div>';
@@ -381,6 +430,7 @@ function stats(){
   const ok=fe.filter(([,o])=>o.att>=3).sort((x,y)=>rate(y[1])-rate(x[1])||y[1].att-x[1].att);
   const dr=Object.entries(d).filter(([,o])=>o.att>=3).sort((x,y)=>y[1].att-x[1].att).slice(0,8);
   const pm={};Object.values(rs).forEach(r=>r.mates.forEach(n=>{const o=pm[n]??={g:0,w:0};o.g++;o.w+=r.w}));
+  const hc={};vs.forEach(v=>v.d.forEach(x=>{if(x!=='?')hc[x]=(hc[x]||0)+1}));const hn=Object.values(hc).reduce((a,b)=>a+b,0);
   const pt=Object.entries(pm).sort((x,y)=>y[1].g-x[1].g).slice(0,6);
   const none='<span class=mut>Needs at least 3 attempts.</span>';
   const rows=(l,c)=>l.map(([k,o])=>gauge(k,rate(o)*100,pc(o),c)).join('')||none;
@@ -388,11 +438,12 @@ function stats(){
   return`<h2 class=hd>Player stats</h2><div class="pills d-flex flex-wrap gap-1 align-items-center mb-2">${names.map(n=>btn('sp',n,esc(n),n===sp)).join('')}<span style="flex:1"></span>${[['7','7d'],['30','30d'],['90','90d'],['all','All']].map(([k,l])=>btn('rng',k,l,rng===k)).join('')}</div>
   <div class="pills d-flex flex-wrap gap-1 align-items-center mb-3">${[['all','All games'],['solo','Individual'],['teams','Teams']].map(([k,l])=>btn('fm',k,l,fm===k)).join('')}</div>
   <div class=tiles>${tile('3-dart average',f1(a.avg),dl('avg'))}${tile('First 9',f1(a.f9),dl('f9'))}${tile('Win rate',gm?Math.round(a.win)+'%':'–',dl('win','%'))}${tile('Doubles hit',S.att?Math.round(a.dbl)+'%':'–',dl('dbl','%'))}${tile('100+',S.a)}${tile('140+',S.b)}${tile('180s',S.c)}${tile('Best finish',S.bf||'–')}${tile('Games',gm)}</div>
-  ${vs.length?`<div class="row row-cols-1 row-cols-lg-2 g-4"><div class=sec><h4>Scoring</h4><div class=cv><canvas id=c1></canvas></div></div><div class=sec><h4>Winning and finishing, to date</h4><div class=cv><canvas id=c2></canvas></div></div><div class=sec><h4>Big scores, % of visits</h4><div class=cv><canvas id=c3></canvas></div></div></div>`:'<div class=sec><span class=mut>No visits for this selection.</span></div>'}
+  ${vs.length?`<div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-3 g-4"><div class=sec><h4>Scoring</h4><div class=cv><canvas id=c1></canvas></div></div><div class=sec><h4>Winning and finishing, to date</h4><div class=cv><canvas id=c2></canvas></div></div><div class=sec><h4>Big scores, % of visits</h4><div class=cv><canvas id=c3></canvas></div></div></div>`:'<div class=sec><span class=mut>No visits for this selection.</span></div>'}
   <div class="row row-cols-1 row-cols-md-2 g-4 mt-1"><div class=sec><h4>Favourite finishes</h4>${fav.map(([k,o])=>gauge(k,o.hit/mx*100,o.hit+'×','var(--acc)',top(o))).join('')||none}</div>
   <div class=sec><h4>Most reliable finishes</h4>${rows(ok.filter(([,o])=>o.hit).slice(0,5),'var(--db)')}</div>
   <div class=sec><h4>Least reliable finishes</h4>${rows(ok.slice().reverse().slice(0,5),'var(--tr)')}</div>
   <div class=sec><h4>Doubles you throw at most</h4>${dr.map(([k,o])=>gauge(k,rate(o)*100,pc(o),'var(--bl)')).join('')||none}</div>
+  <div class=sec><h4>Where your darts land</h4>${hn>=15?`${heat(hc)}<p class=mut style="font-size:.8rem;margin:.5rem 0 0;text-align:center">The stronger the colour, the more darts landed there. ${hc['0']||0} of ${hn} missed the board.</p>`:'<span class=mut>Needs a few more tap-the-board games.</span>'}</div>
   ${pt.length?`<div class=sec><h4>Playing with</h4>${pt.map(([n,o])=>gauge(n,o.w/o.g*100,Math.round(o.w/o.g*100)+'% · '+o.w+'/'+o.g,'var(--db)','win rate together')).join('')}</div>`:''}</div>
   <p class=mut style="font-size:13px">Games and wins count every game you were in, even if you never got to throw. In a team game, a win counts for every team member. A finish counts as an attempt each time a visit starts on that score and it can be checked out in three darts.</p>
   <h4 style="margin:18px 0 8px">All players</h4>${statsTable()}`}
@@ -411,9 +462,10 @@ function setup(){
   <div class="d-flex flex-wrap gap-2 align-items-center" style="margin:8px 0 14px"><button data-a=copy>Copy script</button><span class=mut>Everyone who uses this file does these steps with their own Sheet, so their data stays in their own Drive. If you update the script later, paste it again, then choose Deploy, Manage deployments, Edit, New version.</span></div>
   <div class="d-flex flex-wrap gap-2 align-items-center"><input id=url style="flex:1;min-width:240px" placeholder="https://script.google.com/macros/s/.../exec" value="${esc(url)}"><button data-a=saveurl>Save</button><button class=pri data-a=sync>Sync now</button></div>
   <p class=mut>Anyone with your URL can add rows to your Sheet, so keep it private.</p></div>
+  <div class=sec><h4>Appearance</h4><div class="d-flex flex-wrap gap-2 align-items-center">${[['auto','Auto'],['light','Light'],['dark','Dark']].map(([k,l])=>`<button data-a=theme data-v=${k} class="${theme===k?'on':''}">${l}</button>`).join('')}</div><p class=mut style="margin:.5rem 0 0">Auto follows your device. Dark is easier on the eyes in a pub or on a TV.</p></div>
   <div class=sec><h4>Announcer</h4>${canSpeak()?`<div class="d-flex flex-wrap gap-2 align-items-center"><button data-a=voice class="${voiceOn?'on':''}">${voiceOn?'Voice on':'Voice off'}</button><select id=vs>${rankedVoices().map(v=>`<option value="${esc(v.name)}"${pickVoice()&&pickVoice().name===v.name?' selected':''}>${esc(v.name)} (${esc(v.lang)})${isNat(v)?' · natural':''}</option>`).join('')||'<option>Default voice</option>'}</select><select id=vr title="Speaking speed">${[[.9,'Slower'],[1,'Normal'],[1.15,'Faster'],[1.3,'Fastest']].map(([r,l])=>`<option value=${r}${voiceRate===r?' selected':''}>${l}</option>`).join('')}</select><button data-a=vtest>Test</button></div><p class=mut style="margin:8px 0 0">Says the score after each visit, who is up, and "you have 44 left" when you are on a finish. Voices come from your device, so they differ between browsers.</p><details class=mut style="margin-top:6px"><summary>Get a more natural voice</summary><ul style="margin:8px 0 0;padding-left:20px"><li>Microsoft Edge (Windows, Mac): its voices marked Online (Natural) are very good, including Australian English ones.</li><li>Mac: System Settings, Accessibility, Spoken Content, System voice, Manage voices. Download an Enhanced or Premium English voice, then reload this page.</li><li>iPhone and iPad: Settings, Accessibility, Spoken Content, Voices, then download an Enhanced or Premium voice.</li><li>Android: Settings, System, Languages, Text-to-speech, then install a higher quality English voice.</li></ul></details>`:'<p class=mut>This browser has no speech support.</p>'}</div>
   <div class=sec><div class="d-flex flex-wrap gap-2 align-items-center"><button data-a=exp>Export CSV</button><button data-a=resync>Full resync</button><span class=mut>${visits.length} visits on this device, ${queue.length} waiting to sync</span></div></div>`}
-const gameOpts=()=>gt==='01'?`<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0">${[301,501,701].map(m=>`<button data-a=mode data-v=${m} class="${mode===m?'on':''}">${m}</button>`).join('')}<input id=cm type=number min=2 max=9999 placeholder="Custom" value="${[301,501,701].includes(mode)?'':mode}" style="width:7rem"><button data-a=cust>Use</button></div><p class=lobby-note>Starts on ${mode}. Double out.</p>`
+const gameOpts=()=>gt==='01'?`<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0">${[301,501,701].map(m=>`<button data-a=mode data-v=${m} class="${mode===m?'on':''}">${m}</button>`).join('')}<input id=cm type=number min=2 max=9999 placeholder="Custom" value="${[301,501,701].includes(mode)?'':mode}" style="width:7rem"><button data-a=cust>Use</button></div><p class=lobby-note>Starts on ${mode}. Double out.</p><h4 style="margin-top:1.25rem">Match</h4><div class="d-flex flex-wrap gap-2 align-items-center"><span class=mut>First to</span>${[1,2,3,5].map(n=>`<button data-a=need data-v=${n} class="${need===n?'on':''}">${n}</button>`).join('')}<span class=mut>leg${need>1?'s':''}</span></div>`
  :gt==='mm'?'<p class=mut>Close 20 down to 12, any three doubles, any three trebles and the bull. Each needs three hits: a double counts as two and a treble as three. A double or treble of 12 to 20 goes either to its number or as one hit on Doubles or Trebles, and you choose when both are open. First side to close everything wins. Teams share a scoreboard.</p>'
  :gt==='ft'?`<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Visits per quarter</span>${[1,2,3,5].map(n=>`<button data-a=vpq data-v=${n} class="${vpq===n?'on':''}">${n}</button>`).join('')}</div><p class=mut>Four quarters, aiming at 6, then 3, then 11, then 20. Hit the target for a goal (6 points) or a neighbouring number for a behind (1 point). Doubles and trebles multiply both. Highest total after four quarters wins. Teams share a score.</p>`
  :`<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Lives</span>${[3,5].map(n=>`<button data-a=lives data-v=${n} class="${lives===n?'on':''}">${n}</button>`).join('')}</div><p class=mut>Each player taps a number on the board to claim it. Hit your own double to become a killer, then hit other players' doubles to take their lives. Last player standing wins.</p>`;
@@ -435,9 +487,10 @@ function card(q,i,c){
   const cur=i===G.cur,mine=visits.filter(v=>v.game===G.id&&(G.teams?v.team===q.name:v.player===q.name)),s=pstats(mine),lv=mine[mine.length-1];
   const base=pstats(visits.filter(v=>v.player===q.name&&v.game!==G.id)),avg=mean(s.pts,s.dk),dl=!G.teams&&s.dk>=3&&base.dk>=30?avg-mean(base.pts,base.dk):null;
   const ds=cur?G.darts:(lv?lv.d:[]),t=G.darts.reduce((x,d)=>x+val(d),0),on=cur&&!G.done&&c;
-  const slots=[0,1,2].map(k=>ds[k]?dtag(ds[k]):`<span class="dt e${cur&&!G.done&&k===ds.length?' nx':''}">·</span>`).join('');
+  const entered=!cur&&lv&&lv.d[0]==='?';
+  const slots=entered?`<span class=dt style="width:auto;flex:none;padding:0 1rem">${lv.bust?'Bust':lv.total}</span>`:[0,1,2].map(k=>ds[k]?dtag(ds[k]):`<span class="dt e${cur&&!G.done&&k===ds.length?' nx':''}">·</span>`).join('');
   const tons=[['180',s.c],['140+',s.b],['100+',s.a]].filter(x=>x[1]).slice(0,1).map(x=>`<span class=bdg>${x[0]} ×${x[1]}</span>`).join('');
-  return`<div class="pl${cur?' cur':''}"><h3>${esc(q.name)}${G.teams?`<span class=mem>${q.m.map((n,k)=>`<span class="${cur&&!G.done&&k===q.mi?'now':''}">${esc(n)}</span>`).join('')}</span>`:''}${G.done===q.name?'<span class=bdg style="color:var(--db)">Winner</span>':''}${tons}</h3>
+  return`<div class="pl${cur?' cur':''}"><h3>${esc(q.name)}${G.need>1?`<span class=bdg>Legs ${G.lw[i]}</span>`:''}${G.teams?`<span class=mem>${q.m.map((n,k)=>`<span class="${cur&&!G.done&&k===q.mi?'now':''}">${esc(n)}</span>`).join('')}</span>`:''}${G.done===q.name?'<span class=bdg style="color:var(--db)">Winner</span>':''}${tons}</h3>
   <div class=rm><div class="rem${on?' on':''}">${q.rem}</div></div>
   <div class=slots>${slots}${cur?`<span class=vt>${G.darts.length?t:''}</span>`:''}</div>
   ${on?`<div class=fin><span class=mut>Finish</span>${c.map(d=>dtag(d)).join('<span class=mut>›</span>')}</div>`:''}
@@ -553,7 +606,11 @@ function ftView(){
     <div class=slots style="margin:8px 0">${[0,1,2].map(k=>G.darts[k]?dtag(G.darts[k]):'<span class="dt e">·</span>').join('')}</div>
     ${G.done?winCard():''}<div class=mut>${esc(G.last)}</div>`,'Footy'+(G.teams?' · teams':''),G.done?'':turnBar()+aim)}
 const turnBar=l=>{const p=G.pl[G.cur];return`<div class=turn><small>${l||'Your turn'}</small><b>${esc(p.m[p.mi])}</b>${G.teams?`<span class=mut>${esc(p.name)}</span>`:''}</div>`};
-const shell=(left,sub,tb,extra='')=>`<div class="row g-4"><div class="col-lg-5"><div class=cards><h2 class=hd>Live match</h2>${left}</div>${extra}</div><div class="col-lg-7"><div class=panel><div class=lv><span class=live>Live</span><span class=mut>${sub}</span>${canSpeak()?`<button data-a=voice class="ms-auto${voiceOn?' on':''}">${voiceOn?'Voice on':'Voice off'}</button>`:''}</div>${tb}<div class=bd>${BOARD}</div>${ctrls}</div></div></div>`;
+const tot=()=>G.type==='01'&&entryMode==='total';
+const keypad=()=>{
+  if(G.pendCo)return`<div class=choose><b>${G.pendCo}</b> <span class=mut>Game shot. How many darts did the finish take?</span><div class="d-flex gap-2 mt-2">${[1,2,3].map(n=>`<button class=pri data-a=kco data-v=${n}>${n} dart${n>1?'s':''}</button>`).join('')}</div></div>`;
+  return`<div class=kpw><div class=kd>${KP||'<span class=mut>Score</span>'}</div><div class=kg>${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-a=kd data-v=${n}>${n}</button>`).join('')}<button data-a=kb aria-label="Delete">⌫</button><button data-a=kd data-v=0>0</button><button class=pri data-a=ke>Enter</button></div><div class=kq>${[26,41,45,60,85,100,140,180].map(n=>`<button data-a=kq data-v=${n}>${n}</button>`).join('')}</div><p class=mut style="font-size:.8rem;margin:.6rem 0 0;text-align:center">Total entry skips dart-by-dart stats such as doubles and the heat map.</p></div>`};
+const shell=(left,sub,tb,extra='')=>`<div class="row g-3 g-lg-4"><div class="col-lg-5"><div class=cards><h2 class=hd>Live match</h2>${left}</div>${extra}</div><div class="col-lg-7"><div class=panel><div class=lv><span class=live>Live</span><span class=mut>${sub}</span>${G.type==='01'?`<div class="pills d-flex gap-1 ms-auto"><button data-a=em data-v=board class="${tot()?'':'on'}">Board</button><button data-a=em data-v=total class="${tot()?'on':''}">Total</button></div>`:''}${canSpeak()?`<button data-a=voice class="${G.type==='01'?'':'ms-auto'}${voiceOn?' on':''}">${voiceOn?'Voice on':'Voice off'}</button>`:''}</div>${tb}${tot()?keypad():`<div class=bd>${BOARD}</div>`}${tot()?'<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button data-a=undo>Undo</button><button data-a=quit>End game</button></div>':ctrls}</div></div></div>`;
 const ctrls='<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button data-a=undo>Undo</button><button data-d="0">Miss</button><button data-a=quit>End game</button></div>';
 const winCard=()=>`<div class=sec><b>${G.done==='Draw'?'Drawn game':esc(G.done)+' wins!'}</b><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>`;
 function mmView(){
@@ -582,17 +639,20 @@ function funStats(){
   <p class=mut style="font-size:13px">Party games are tracked apart from your practice stats, in their own worksheets. Only finished games are recorded.</p>`}
 function game(){if(G.type==='mm')return mmView();if(G.type==='kl')return klView();if(G.type==='ft')return ftView();
   const hx=visits.filter(v=>v.game===G.id).slice(-8).reverse();
-  const hsec=hx.length?`<div class="sec hsec"><h4>Visits</h4><div class=table-responsive><table class=hist><tr><th>Player</th><th>Darts</th><th>Score</th><th>Left</th></tr>${hx.map(v=>`<tr><td>${esc(v.player)}</td><td>${v.d.map(lbl).join(' ')}</td><td>${v.bust?'Bust':v.total}</td><td>${v.bust?v.start:v.start-v.total}</td></tr>`).join('')}</table></div></div>`:'';
+  const hsec=hx.length?`<div class="sec hsec"><h4>Visits</h4><div class=table-responsive><table class=hist><tr><th>Player</th><th>Darts</th><th>Score</th><th>Left</th></tr>${hx.map(v=>`<tr><td>${esc(v.player)}</td><td>${v.d[0]==='?'?'<span class=mut>total entered</span>':v.d.map(lbl).join(' ')}</td><td>${v.bust?'Bust':v.total}</td><td>${v.bust?v.start:v.start-v.total}</td></tr>`).join('')}</table></div></div>`:'';
   const p=G.pl[G.cur],c=G.done?null:co(p.rem,3-G.darts.length);
-  const left=G.pl.map((q,i)=>card(q,i,c)).join(''),who=p.m[p.mi],turn=!G.done&&(G.pl.length>1||p.m.length>1)?`<div class=turn><small>Your turn</small><b>${esc(who)}</b>${G.teams?`<span class=mut>${esc(p.name)}</span>`:''}</div>`:'';
+  const left=G.pl.map((q,i)=>card(q,i,c)).join(''),who=p.m[p.mi],turn=!G.done&&!G.legWon&&(G.pl.length>1||p.m.length>1)?`<div class=turn><small>Your turn</small><b>${esc(who)}</b>${G.teams?`<span class=mut>${esc(p.name)}</span>`:''}</div>`:'';
   return shell(`${left}
-    ${G.done?`<div class=sec><b>${esc(G.done)} wins the leg.</b> <span class=mut>${winLine()}</span><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>`:''}`,G.mode+' · double out'+(G.teams?' · teams':''),turn,hsec)}
+    ${G.legWon?`<div class=sec><b>${esc(G.legWon)} wins leg ${G.leg}.</b> <span class=mut>${G.pl.map((x,k)=>esc(x.name)+' '+G.lw[k]).join(' · ')}</span><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button class=pri data-a=nextleg>Next leg</button></div></div>`:''}${G.done?`<div class=sec><b>${esc(G.done)} wins ${G.need>1?'the match':'the leg'}.</b> <span class=mut>${winLine()}</span><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>`:''}`,G.mode+' · double out'+(G.teams?' · teams':'')+(G.need>1?' · first to '+G.need+', leg '+G.leg:''),turn,hsec)}
+let wl=null;
+async function keepAwake(on){try{if(on&&navigator.wakeLock&&!wl){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}else if(!on&&wl){const w=wl;wl=null;await w.release()}}catch(e){wl=null}}
 function render(){CH.forEach(c=>c.destroy());CH=[];
+  try{if(G&&!G.done)localStorage.setItem('game',JSON.stringify(G));else localStorage.removeItem('game')}catch(e){}
   const tabs=[['play','Play'],['stats','Stats'],['history','History'],['fun','Party'],['setup','Setup']].map(([t,l])=>`<li class=nav-item><button data-a=tab data-v=${t} class="nav-link${view===t?' active':''}">${l}</button></li>`).join('');
-  $('#app').innerHTML=`<nav class=navbar><div class=container><span class=navbar-brand>Darts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${alertMsg||(url&&queue.length>=100)?`<p class=alert>${esc(alertMsg||queue.length+' visits are waiting to sync. Press Sync now in Setup.')}</p>`:''}${note?`<p class=mut>${esc(note)}</p>`:''}${view==='stats'?stats():view==='history'?history():view==='fun'?funStats():view==='setup'?setup():G?game():lobby()}</main>`;skin();if(view==='stats')draw(SV)}
+  $('#app').innerHTML=`<nav class=navbar><div class=container><span class=navbar-brand>Darts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${alertMsg||(url&&queue.length>=100)?`<p class=alert>${esc(alertMsg||queue.length+' visits are waiting to sync. Press Sync now in Setup.')}</p>`:''}${note?`<p class=mut>${esc(note)}</p>`:''}${view==='stats'?stats():view==='history'?history():view==='fun'?funStats():view==='setup'?setup():G?game():lobby()}</main>`;skin();keepAwake(!!G&&!G.done);if(view==='stats')draw(SV)}
 
 /* ---------- events ---------- */
-const A={voice(){voiceOn=!voiceOn;put('voice',voiceOn);if(voiceOn)speak(['Voice on']);else if(canSpeak())speechSynthesis.cancel();render()},vtest(){speak(['One hundred and eighty!','Peter, you have 44 left'])},vpq(v){vpq=+v;render()},mmc(v){if(G&&G.pend)mmApply(G.pend.d,G.pend.o[+v],hist[hist.length-1])},hp(v){hp=v;render()},gt(v){gt=v;render()},lives(v){lives=+v;render()},cust(){const n=Math.round(+$('#cm').value);if(n>=2&&n<=9999){mode=n;note=''}else note='Enter a starting score between 2 and 9999.';render()},fm(v){fm=v;render()},fmt(v){fmt=v;render()},pt(v){const was=teams[at].m.includes(v);teams.forEach(t=>t.m=t.m.filter(x=>x!==v));if(!was)teams[at].m.push(v);render()},at(v){at=+v;render()},addt(){teams.push({name:'',m:[]});at=teams.length-1;render()},
+const A={need(v){need=+v;render()},nextleg:nextLeg,em(v){entryMode=v;put('entry',v);KP='';render()},kd(v){KP=(KP+v).replace(/^0+(?=\d)/,'');if(+KP>180)KP=KP.slice(0,-1);render()},kb(){KP=KP.slice(0,-1);render()},ke(){if(KP!=='')entry(+KP)},kq(v){entry(+v)},kco(v){if(G&&G.pendCo)entryGo(G.pendCo,+v)},theme(v){theme=v;put('theme',v);applyTheme();render()},voice(){voiceOn=!voiceOn;put('voice',voiceOn);if(voiceOn)speak(['Voice on']);else if(canSpeak())speechSynthesis.cancel();render()},vtest(){speak(['One hundred and eighty!','Peter, you have 44 left'])},vpq(v){vpq=+v;render()},mmc(v){if(G&&G.pend)mmApply(G.pend.d,G.pend.o[+v],hist[hist.length-1])},hp(v){hp=v;render()},gt(v){gt=v;render()},lives(v){lives=+v;render()},cust(){const n=Math.round(+$('#cm').value);if(n>=2&&n<=9999){mode=n;note=''}else note='Enter a starting score between 2 and 9999.';render()},fm(v){fm=v;render()},fmt(v){fmt=v;render()},pt(v){const was=teams[at].m.includes(v);teams.forEach(t=>t.m=t.m.filter(x=>x!==v));if(!was)teams[at].m.push(v);render()},at(v){at=+v;render()},addt(){teams.push({name:'',m:[]});at=teams.length-1;render()},
   tup(v){v=+v;if(v>0){[teams[v-1],teams[v]]=[teams[v],teams[v-1]];if(at===v)at--;else if(at===v-1)at++}render()},
   tdn(v){v=+v;if(v<teams.length-1){[teams[v+1],teams[v]]=[teams[v],teams[v+1]];if(at===v)at++;else if(at===v+1)at--}render()},
   tdel(v){if(teams.length>2){teams.splice(+v,1);at=Math.min(at,teams.length-1)}render()},
@@ -605,16 +665,22 @@ const A={voice(){voiceOn=!voiceOn;put('voice',voiceOn);if(voiceOn)speak(['Voice 
   mode(v){mode=+v;render()},
   addp(){const n=($('#np').value||'').trim();if(n&&!players.includes(n)){players.push(n);(fmt==='teams'?teams[at].m:sel).push(n);persist()}render();$('#np')&&$('#np').focus()},
   start:startGame,undo,sync,exp:exportCsv,
-  again(){gt=G.type;lives=G.lives;vpq=G.vpq||3;if(!G.teams)sel=G.pl.map(q=>q.name);mode=G.mode;startGame()},
+  again(){gt=G.type;lives=G.lives;vpq=G.vpq||3;need=G.need||1;if(!G.teams){sel=G.pl.map(q=>q.name);sel.push(sel.shift())}else teams.push(teams.shift());mode=G.mode;startGame()},
   quit(){G=null;hist=[];render()},
   saveurl(){const u=$('#url').value.trim();if(u!==url){cursor=0;curs={}}url=u;persist();note='URL saved.';render()},
   copy(){const t=$('#sc');t.select();(navigator.clipboard?navigator.clipboard.writeText(SCRIPT):Promise.reject()).catch(()=>document.execCommand('copy'));note='Script copied.';}
 };
 document.addEventListener('click',e=>{const t=e.target,d=t.dataset&&t.dataset.d,a=t.dataset&&t.dataset.a;
-  if(d!==undefined)thr(d);else if(a)A[a](t.dataset.v)});
+  if(d!==undefined){try{navigator.vibrate&&navigator.vibrate(10)}catch(x){}thr(d);document.querySelectorAll('[data-d="'+d+'"]').forEach(x=>{x.classList.add('hit');setTimeout(()=>x.classList.remove('hit'),260)})}
+  else if(a)A[a](t.dataset.v)});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')keepAwake(!!G&&!G.done)});
 document.addEventListener('change',e=>{if(e.target.id==='vs'){voiceName=e.target.value;put('voiceName',voiceName)}if(e.target.id==='vr'){voiceRate=+e.target.value;put('voiceRate',voiceRate)}});
 if(canSpeak())speechSynthesis.onvoiceschanged=()=>{if(view==='setup')render()};
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='np')A.addp()});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.id==='np'){A.addp();return}
+  if(!G||view!=='play'||!tot()||G.done||G.legWon||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
+  if(G.pendCo){if(/^[123]$/.test(e.key))entryGo(G.pendCo,+e.key);return}
+  if(/^\d$/.test(e.key))A.kd(e.key);else if(e.key==='Backspace')A.kb();else if(e.key==='Enter')A.ke()});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.tn;if(i!==undefined)teams[+i].name=e.target.value});
 async function boot(){
   try{
@@ -633,5 +699,7 @@ async function boot(){
   catch(e){visits=LS('visits')||[];queue=LS('queue')||[];DB=null;
     alertMsg='This browser is not letting the app save data, so visits will be lost when you close the page. Press Sync now after every game.'}
   rebuildWin();render()}
+(()=>{const st=LS('setup');if(st){if(st.gt)gt=st.gt;if(st.fmt)fmt=st.fmt;if(st.mode)mode=st.mode;if(Array.isArray(st.sel))sel=st.sel.filter(n=>players.includes(n));if(Array.isArray(st.teams)&&st.teams.length>=2)teams=st.teams;need=st.need||1;lives=st.lives||3;vpq=st.vpq||3}
+  const g=LS('game');if(g&&g.pl&&!g.done){G=g;view='play';note='Picked up the game you had in progress.'}})();
 boot();
 </script></body></html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Darts</title>
+  <meta
+          name="description"
+          content="Darts scorer for 01, Mickey Mouse, Killer and Footy. Stats are kept in your own Google Sheet."
+  />
+  <link rel="icon" href="data:," />
+
+  <!-- Styles: Bootstrap 5.3 (vendor), then the app's own rules -->
+  <link rel="stylesheet" href="vendor/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+
+<body>
+<!-- Every screen is drawn into this element by js/render.js -->
+<div id="app"></div>
+<noscript>This app needs JavaScript switched on.</noscript>
+
+<!--
+  Scripts are plain classic scripts (not ES modules) so the app also works when
+  index.html is opened straight from a folder. They share one global scope, so the
+  ORDER below matters: a file may only use things defined in files above it at load
+  time. Everything else is looked up when a button is pressed.
+-->
+<!-- Charts (vendor) -->
+<script defer src="vendor/chart.umd.js"></script>
+<!-- QR codes for the Setup sync link (CDN) -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<!-- State, storage and helpers -->
+<script defer src="js/state.js"></script>
+<script defer src="js/storage.js"></script>
+<script defer src="js/theme.js"></script>
+
+<!-- Darts knowledge: values, checkouts, the board, speech -->
+<script defer src="js/dart-maths.js"></script>
+<script defer src="js/board.js"></script>
+<script defer src="js/voice.js"></script>
+<script defer src="js/apps-script.js"></script>
+
+<!-- Shared calculations and tables -->
+<script defer src="js/stats-calc.js"></script>
+<script defer src="js/party-common.js"></script>
+
+<!-- Games -->
+<script defer src="js/game-flow.js"></script>
+<script defer src="js/game-01.js"></script>
+<script defer src="js/game-mickey-mouse.js"></script>
+<script defer src="js/game-killer.js"></script>
+<script defer src="js/game-footy.js"></script>
+
+
+
+<!-- Screens -->
+<script defer src="js/views-play.js"></script>
+<script defer src="js/views-lobby.js"></script>
+<script defer src="js/views-stats.js"></script>
+<script defer src="js/views-history.js"></script>
+<script defer src="js/views-party-stats.js"></script>
+<script defer src="js/views-setup.js"></script>
+
+<!-- Sync with Google Sheets -->
+<script defer src="js/sync.js"></script>
+
+<!-- Drawing, actions, events and start-up (boot.js must stay last) -->
+<script defer src="js/render.js"></script>
+<script defer src="js/actions.js"></script>
+<script defer src="js/events.js"></script>
+<script defer src="js/boot.js"></script>
+</body>
+</html>

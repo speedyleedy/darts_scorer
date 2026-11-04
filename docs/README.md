@@ -1,4 +1,4 @@
-# Darts
+# TapDarts
 
 A darts scorer for 01 games, Mickey Mouse, Killer and Footy. It runs entirely in the browser, needs no
 server and no sign-in, and keeps your stats in **your own Google Sheet** (optional).
@@ -13,6 +13,7 @@ server and no sign-in, and keeps your stats in **your own Google Sheet** (option
 
 ```
 index.html            the page: loads the files below in order
+img/logo.svg          the TapDarts logo (header and browser tab icon)
 css/app.css           all of the app's own styling (colours and dark theme are the variables at the top)
 vendor/               third-party libraries, unchanged: Bootstrap 5.3.3 (CSS) and Chart.js 4.4.7
 js/                   the app, one job per file (see below)

@@ -213,6 +213,7 @@ const A = {
     if (u !== url) {
       cursor = 0;
       curs = {};
+      synced = false;
     }
     url = u;
     persist();

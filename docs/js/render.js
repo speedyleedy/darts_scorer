@@ -10,7 +10,13 @@ function skin() {
     const c = b.classList;
     c.add(
       'btn',
-      c.contains('on') ? 'btn-dark' : c.contains('pri') ? 'btn-primary' : 'btn-outline-secondary',
+      c.contains('on')
+        ? 'btn-dark'
+        : c.contains('pri')
+          ? 'btn-primary'
+          : c.contains('dng')
+            ? 'btn-danger'
+            : 'btn-outline-secondary',
     );
     if (b.matches('[data-a=start]')) c.add('btn-lg', 'w-100');
     if (b.closest('.mm,.tm,.lv,.kq')) c.add('btn-sm');
@@ -62,8 +68,13 @@ function render() {
         `<li class=nav-item><button data-a=tab data-v=${t} class="nav-link${view === t ? ' active' : ''}">${l}</button></li>`,
     )
     .join('');
+  /* until a Sync has worked, point people at Setup (not on Setup itself) */
+  const syncNag =
+    !synced && view !== 'setup'
+      ? `<div class="alert d-flex flex-wrap gap-2 align-items-center" role=alert><span><b>${url ? 'Not synced yet.' : 'Not backed up.'}</b> ${url ? 'Your Google Sheet has not synced yet. Press Sync now in Setup so your stats are backed up.' : 'Your stats are only saved in this browser. Set up Google Sheets sync to back them up and share them between devices.'}</span><button class="dng ms-auto" data-a=tab data-v=setup>${url ? 'Go to Setup' : 'Set up sync'}</button></div>`
+      : '';
   $('#app').innerHTML =
-    `<nav class=navbar><div class=container><span class=navbar-brand>Darts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${alertMsg || (url && queue.length >= 100) ? `<p class=alert>${esc(alertMsg || queue.length + ' visits are waiting to sync. Press Sync now in Setup.')}</p>` : ''}${note ? `<p class=mut>${esc(note)}</p>` : ''}${view === 'stats' ? stats() : view === 'history' ? history() : view === 'fun' ? funStats() : view === 'setup' ? setup() : G ? game() : lobby()}</main>`;
+    `<nav class=navbar><div class=container><span class=navbar-brand>Darts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${syncNag}${alertMsg || (url && queue.length >= 100) ? `<p class=alert>${esc(alertMsg || queue.length + ' visits are waiting to sync. Press Sync now in Setup.')}</p>` : ''}${note ? `<p class=mut>${esc(note)}</p>` : ''}${view === 'stats' ? stats() : view === 'history' ? history() : view === 'fun' ? funStats() : view === 'setup' ? setup() : G ? game() : lobby()}</main>`;
   skin();
   keepAwake(!!G && !G.done);
   if (view === 'stats') draw(SV);

@@ -100,6 +100,7 @@ async function sync() {
     visits.sort(byTime);
     rebuildWin();
     players = [...new Set([...players, ...visits.map((v) => v.player)])];
+    synced = true;
     persist();
     note =
         'Synced. ' +

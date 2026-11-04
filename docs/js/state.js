@@ -36,6 +36,7 @@ let players = LS('players') || [],
   queue = [],
   url = LS('url') || '',
   cursor = +LS('cursor') || 0,
+  synced = !!LS('synced') || cursor > 0 /* a Sync with the current URL has worked */,
   curs = LS('curs') || {},
   fun = { mm: [], kl: [], ft: [] },
   fq = { mm: [], kl: [], ft: [] },
@@ -74,5 +75,6 @@ const persist = () => {
   put('players', players);
   put('url', url);
   put('cursor', cursor);
+  put('synced', synced);
   put('curs', curs);
 };

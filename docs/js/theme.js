@@ -1,8 +1,8 @@
 /**
- * Light / dark theme (Auto follows the device).
+ * Light / dark theme (Auto follows the device). Light is the default.
  */
 
-let theme = LS('theme') || 'auto';
+let theme = LS('theme') || 'light';
 
 const applyTheme = () => {
   const dark =

@@ -19,20 +19,21 @@ function board() {
     const a1 = i * 18 - 9,
       a2 = i * 18 + 9,
       c = i % 2 ? ['#efe3bf', '#2a9d5c'] : ['#1b1b1b', '#d33'];
+    /* not to scale: trebles, doubles and the bull are wider than a real board so they are easy to tap */
     [
-      [28, 98, 'S', c[0]],
-      [98, 122, 'T', c[1]],
-      [122, 168, 'S', c[0]],
-      [168, 196, 'D', c[1]],
+      [34, 90, 'S', c[0]],
+      [90, 126, 'T', c[1]],
+      [126, 162, 'S', c[0]],
+      [162, 198, 'D', c[1]],
     ].forEach(([r1, r2, t, f]) => {
       h += `<path class="seg" d="${arc(r1, r2, a1, a2)}" fill="${f}" data-d="${t}${n}"/>`;
     });
-    const [x, y] = P(215, i * 18);
+    const [x, y] = P(216, i * 18);
     h += `<text x="${x}" y="${y + 6}" text-anchor="middle" fill="#fff" font-size="18" font-weight="600" style="pointer-events:none">${n}</text>`;
   });
   return (
     h +
-    '<circle class="seg" r="28" fill="#2a9d5c" data-d="25"/><circle class="seg" r="12" fill="#d33" data-d="50"/></svg>'
+    '<circle class="seg" r="34" fill="#2a9d5c" data-d="25"/><circle class="seg" r="16" fill="#d33" data-d="50"/></svg>'
   );
 }
 

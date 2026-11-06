@@ -10,6 +10,7 @@ document.addEventListener('click', (e) => {
     try {
       navigator.vibrate && navigator.vibrate(10);
     } catch (x) {}
+    note = '';
     thr(d);
     document.querySelectorAll('[data-d="' + d + '"]').forEach((x) => {
       x.classList.add('hit');

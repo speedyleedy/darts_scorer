@@ -3,6 +3,7 @@
  */
 function setup() {
   return `<div class=sec><b>Google Sheets sync (optional)</b>
+  <p style="margin:.5rem 0"><a href="guide.html" target="_blank" rel="noopener">Step-by-step guide with pictures</a></p>
   <ol>
     <li>Create a new Google Sheet.</li>
     <li>Open Extensions, then Apps Script. Delete the default code, paste the script below, and save.</li>

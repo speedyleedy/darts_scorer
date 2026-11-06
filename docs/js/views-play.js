@@ -66,7 +66,7 @@ const ctrls =
   '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button data-a=undo>Undo</button><button data-d="0">Miss</button><button data-a=quit>End game</button></div>';
 
 const winCard = () =>
-  `<div class=sec><b>${G.done === 'Draw' ? 'Drawn game' : esc(G.done) + ' wins!'}</b><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>`;
+  `<div class="sec ovl"><b>${G.done === 'Draw' ? 'Drawn game' : esc(G.done) + ' wins!'}</b><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>`;
 
 function game() {
   if (G.type === 'mm') return mmView();
@@ -84,12 +84,14 @@ function game() {
   const left = G.pl.map((q, i) => card(q, i, c)).join(''),
     who = p.m[p.mi],
     turn =
-      !G.done && !G.legWon && (G.pl.length > 1 || p.m.length > 1)
-        ? `<div class=turn><small>Your turn</small><b>${esc(who)}</b>${G.teams ? `<span class=mut>${esc(p.name)}</span>` : ''}</div>`
-        : '';
+      G.pl.length > 1 || p.m.length > 1
+        ? `<div class=turn${G.done || G.legWon ? ' style="visibility:hidden"' : ''}><small>Your turn</small><b>${esc(who)}</b>${G.teams ? `<span class=mut>${esc(p.name)}</span>` : ''}</div>`
+        : '',
+    /* phones: the finish route sits on its own fixed line, so the cards never change height */
+    mfin = `<div class=mfin>${c ? `<span class=mut>Finish</span>${c.map((d) => dtag(d)).join('<span class=mut>›</span>')}` : ''}</div>`;
   return shell(
-    `${left}
-    ${G.legWon ? `<div class=sec><b>${esc(G.legWon)} wins leg ${G.leg}.</b> <span class=mut>${G.pl.map((x, k) => esc(x.name) + ' ' + G.lw[k]).join(' · ')}</span><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button class=pri data-a=nextleg>Next leg</button></div></div>` : ''}${G.done ? `<div class=sec><b>${esc(G.done)} wins ${G.need > 1 ? 'the match' : 'the leg'}.</b> <span class=mut>${winLine()}</span><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>` : ''}`,
+    `${left}${mfin}
+    ${G.legWon ? `<div class="sec ovl"><b>${esc(G.legWon)} wins leg ${G.leg}.</b> <span class=mut>${G.pl.map((x, k) => esc(x.name) + ' ' + G.lw[k]).join(' · ')}</span><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button class=pri data-a=nextleg>Next leg</button></div></div>` : ''}${G.done ? `<div class="sec ovl"><b>${esc(G.done)} wins ${G.need > 1 ? 'the match' : 'the leg'}.</b> <span class=mut>${winLine()}</span><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>` : ''}`,
     G.mode +
       ' · double out' +
       (G.teams ? ' · teams' : '') +

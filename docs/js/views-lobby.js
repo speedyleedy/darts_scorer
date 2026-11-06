@@ -9,7 +9,14 @@ const gameOpts = () =>
       ? '<p class=mut>Close 20 down to 12, any three doubles, any three trebles, three lots of 3 in a bed and the bull. Each needs three hits: a double counts as two and a treble as three. Throw all three darts, then choose where they go: a double or treble of 12 to 20 goes either to its number or as one hit on Doubles or Trebles. 3 in a bed is all three darts in the same bed (any mix of singles, doubles and trebles, or the bull) and takes all three darts for one hit. First side to close everything wins. Teams share a scoreboard.</p>'
       : gt === 'ft'
         ? `<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Visits per quarter</span>${[1, 2, 3, 5].map((n) => `<button data-a=vpq data-v=${n} class="${vpq === n ? 'on' : ''}">${n}</button>`).join('')}</div><p class=mut>Four quarters, aiming at 6, then 3, then 11, then 20. Hit the target for a goal (6 points) or a neighbouring number for a behind (1 point). Doubles and trebles multiply both. Highest total after four quarters wins. Teams share a score.</p>`
-        : `<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Lives</span>${[3, 5].map((n) => `<button data-a=lives data-v=${n} class="${lives === n ? 'on' : ''}">${n}</button>`).join('')}</div><p class=mut>Each player taps a number on the board to claim it. Hit your own double to become a killer, then hit other players' doubles to take their lives. Last player standing wins.</p>`;
+        : `<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Lives</span>${[3, 5].map((n) => `<button data-a=lives data-v=${n} class="${lives === n ? 'on' : ''}">${n}</button>`).join('')}</div>
+        <div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Target</span><button data-a=kt data-v=w class="${kt === 'w' ? 'on' : ''}">Whole wedge</button><button data-a=kt data-v=d class="${kt === 'd' ? 'on' : ''}">Doubles only</button></div>
+        <div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Lives back</span><button data-a=heal data-v=1 class="${heal ? 'on' : ''}">On</button><button data-a=heal data-v=0 class="${heal ? '' : 'on'}">Off</button></div>
+        <p class=mut>Each player taps a number on the board to claim it. ${
+          kt === 'w'
+            ? 'Hit anywhere in your own wedge to become a killer, then hit other players\' wedges to take their lives: a single takes one, a double two and a treble three.'
+            : 'Hit your own double to become a killer, then hit other players\' doubles to take their lives, one per hit.'
+        }${heal ? ` Hitting your own ${kt === 'w' ? 'wedge' : 'double'} also wins back lives you have lost${kt === 'w' ? ' (a double two, a treble three)' : ''}, up to ${lives}.` : ''} Last player standing wins.</p>`;
 
 const tn = (t, i) => t.name.trim() || t.m.join(' & ') || 'Team ' + (i + 1);
 

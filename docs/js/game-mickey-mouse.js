@@ -165,8 +165,14 @@ function mmView() {
     (k) =>
       `<tr><td>${lab[k] || k}</td>${G.pl.map((x, i) => `<td class="${x.marks[k] >= 3 ? 'cl' : ''}${on(i) ? ' cur' : ''}">${sym[x.marks[k] || 0]}</td>`).join('')}</tr>`,
   ).join('');
+  const mob = `<table class="mmt mmm mob"><tr><th></th>${MT.map((k) => `<th>${{ Bed: 'Bed', B: 'Bull' }[k] || k}</th>`).join('')}</tr>${G.pl
+    .map(
+      (x, i) =>
+        `<tr class="${on(i) ? 'cur' : ''}"><td>${esc(x.name)}</td>${MT.map((k) => `<td class="${x.marks[k] >= 3 ? 'cl' : ''}">${sym[x.marks[k] || 0]}</td>`).join('')}</tr>`,
+    )
+    .join('')}</table>`;
   return shell(
-    `<div class=sec style="overflow-x:auto"><table class=mmt><tr><th></th>${G.pl.map((x, i) => `<th class="${on(i) ? 'cur' : ''}">${esc(x.name)}</th>`).join('')}</tr>${rows}</table></div>
+    `<div class=sec style="overflow-x:auto">${mob}<table class="mmt dsk"><tr><th></th>${G.pl.map((x, i) => `<th class="${on(i) ? 'cur' : ''}">${esc(x.name)}</th>`).join('')}</tr>${rows}</table></div>
     <div class=slots style="margin:8px 0">${[0, 1, 2].map((k) => (G.darts[k] ? dtag(G.darts[k]) : '<span class="dt e">·</span>')).join('')}</div>
     ${G.done ? winCard() : ''}<div class=mut>${esc(G.last)}</div>`,
     'Mickey Mouse' + (G.teams ? ' · teams' : ''),

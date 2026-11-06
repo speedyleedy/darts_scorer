@@ -77,6 +77,14 @@ const A = {
     lives = +v;
     render();
   },
+  kt(v) {
+    kt = v;
+    render();
+  },
+  heal(v) {
+    heal = v === '1';
+    render();
+  },
   cust() {
     const n = Math.round(+$('#cm').value);
     if (n >= 2 && n <= 9999) {
@@ -206,6 +214,10 @@ const A = {
   quit() {
     G = null;
     hist = [];
+    render();
+  },
+  nagoff() {
+    put('nagOff', Date.now());
     render();
   },
   saveurl() {

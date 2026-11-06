@@ -90,6 +90,8 @@ let syncLink = false;
     if (Array.isArray(st.teams) && st.teams.length >= 2) teams = st.teams;
     need = st.need || 1;
     lives = st.lives || 3;
+    if (st.kt) kt = st.kt;
+    if (st.heal !== undefined) heal = st.heal;
     vpq = st.vpq || 3;
   }
   const g = LS('game');

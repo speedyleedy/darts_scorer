@@ -37,21 +37,33 @@ function klThr(d) {
   p.darts++;
   G.darts.push(d);
   G.msg = '';
-  if (ty === 'D' && n) {
-    if (n === p.num && !p.killer) {
+  /* hits: whole wedge counts a single 1, double 2, treble 3; doubles only counts a double as 1.
+     Games saved before the options existed have no kt, so they keep the doubles rules. */
+  const hits = !n ? 0 : G.kt === 'w' ? ({ S: 1, D: 2, T: 3 })[ty] : ty === 'D' ? 1 : 0;
+  if (hits && n === p.num) {
+    const msg = [];
+    if (!p.killer) {
       p.killer = true;
       p.kd = p.darts;
-      G.msg = p.name + ' is now a KILLER!';
-    } else if (p.killer) {
-      const v = G.pl.find((x) => x.alive && x !== p && x.num === n);
-      if (v) {
-        v.lives--;
-        p.kills++;
-        G.msg = p.name + ' hit ' + v.name + ': ' + (v.lives ? v.lives + ' left' : 'OUT!');
-        if (!v.lives) {
-          v.alive = false;
-          G.out.push(v.name);
-        }
+      msg.push(p.name + ' is now a KILLER!');
+    }
+    const back = G.heal ? Math.min(hits, G.lives - p.lives) : 0;
+    if (back) {
+      p.lives += back;
+      msg.push(p.name + ' wins back ' + (back > 1 ? back + ' lives' : 'a life') + ': ' + p.lives + ' left');
+    }
+    G.msg = msg.join(' ');
+  } else if (hits && p.killer) {
+    const v = G.pl.find((x) => x.alive && x !== p && x.num === n);
+    if (v) {
+      const took = Math.min(hits, v.lives);
+      v.lives -= took;
+      p.kills += took;
+      G.msg =
+        p.name + ' hit ' + v.name + (took > 1 ? ' for ' + took : '') + ': ' + (v.lives ? v.lives + ' left' : 'OUT!');
+      if (!v.lives) {
+        v.alive = false;
+        G.out.push(v.name);
       }
     }
   }
@@ -89,16 +101,18 @@ function klThr(d) {
 
 function klView() {
   const pick = G.phase === 'pick',
-    p = G.pl[G.cur];
+    p = G.pl[G.cur],
+    w = G.kt === 'w',
+    tgt = (x) => (w ? '' : 'D') + x.num;
   const cards = G.pl
     .map(
       (x, i) =>
-        `<div class="pl${i === G.cur && !G.done ? ' cur' : ''}" style="${x.alive ? '' : 'opacity:.4'}"><h3>${esc(x.name)}${x.killer ? '<span class=bdg style="color:var(--acc)">KILLER</span>' : ''}${x.alive ? '' : '<span class=bdg>Out</span>'}</h3><div class=rem style="grid-row:1/3;grid-column:2;font-size:56px">${x.num ? 'D' + x.num : '–'}</div><div style="letter-spacing:3px;font-size:18px">${'●'.repeat(x.lives)}<span class=mut>${'○'.repeat(G.lives - x.lives)}</span> <span class=mut style="letter-spacing:0;font-size:13px">${x.kills} kills</span></div></div>`,
+        `<div class="pl${i === G.cur && !G.done ? ' cur' : ''}" style="${x.alive ? '' : 'opacity:.4'}"><h3>${esc(x.name)}${x.killer ? '<span class=bdg style="color:var(--acc)">KILLER</span>' : ''}${x.alive ? '' : '<span class=bdg>Out</span>'}</h3><div class="rem krem">${x.num ? tgt(x) : '–'}</div><div style="letter-spacing:3px;font-size:18px">${'●'.repeat(x.lives)}<span class=mut>${'○'.repeat(G.lives - x.lives)}</span> <span class=mut style="letter-spacing:0;font-size:13px">${x.kills} kills</span></div></div>`,
     )
     .join('');
   const tg = G.pl
     .filter((x) => x.alive && x !== p && x.num)
-    .map((x) => `D${x.num} (${esc(x.name)})`)
+    .map((x) => `${tgt(x)} (${esc(x.name)})`)
     .join(', ');
   const tip = G.done
     ? ''
@@ -110,11 +124,11 @@ function klView() {
             .join(', ') || 'none'
         }.</div>`
       : p.killer
-        ? `<div class=hint>You are a killer. Take lives with <b>${tg}</b></div>`
-        : `<div class=hint>Hit <b>D${p.num}</b> to become a killer.</div>`;
+        ? `<div class=hint>You are a killer. Take lives with <b>${tg}</b>${G.heal && p.lives < G.lives ? `. Hit <b>${tgt(p)}</b> for lives back.` : ''}</div>`
+        : `<div class=hint>Hit <b>${tgt(p)}</b>${w ? ' (any ring)' : ''} to become a killer.</div>`;
   return shell(
-    `${cards}${tip}${G.msg ? `<div class=alert style="position:static">${esc(G.msg)}</div>` : ''}${G.done ? winCard() : ''}`,
-    'Killer · ' + G.lives + ' lives',
+    `${cards}${G.msg ? `<div class="alert kmsg">${esc(G.msg)}</div>` : tip}${G.done ? winCard() : ''}`,
+    'Killer · ' + G.lives + ' lives' + (w ? ' · whole wedge' : ' · doubles') + (G.heal ? ' · lives back' : ''),
     G.done ? '' : turnBar(pick ? 'Pick a number' : 'Your turn'),
   );
 }

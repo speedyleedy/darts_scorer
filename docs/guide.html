@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sheet Sync Guide</title>
+  <meta name="description" content="Step-by-step: connect TapDarts to your own Google Sheet so your stats are backed up and shared between devices." />
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #eceef3;
+      --card: #fff;
+      --ink: #1c2030;
+      --mut: #5f6678;
+      --line: #dce0e8;
+      --acc: #3f51d8;
+      --acc-soft: rgba(63, 81, 216, 0.12);
+      --warn: #b3261e;
+      --ok: #14804c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      max-width: 46rem;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    header img { width: 2.5rem; height: 2.5rem; }
+    header b { font-size: 1.2rem; font-style: italic; font-weight: 800; }
+    header a { margin-left: auto; color: var(--acc); font-weight: 600; text-decoration: none; }
+    main { max-width: 46rem; margin: 0 auto; padding: 0 1rem 3rem; }
+    h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); line-height: 1.15; margin: 0.5rem 0 0.75rem; }
+    .lead { color: var(--mut); font-size: 1.05rem; margin: 0 0 1.25rem; }
+    .box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .box h2 { font-size: 1.05rem; margin: 0 0 0.4rem; }
+    .box ul, .box ol { margin: 0.25rem 0 0; padding-left: 1.25rem; }
+    .toc { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .toc a {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 2.4rem; height: 2.4rem; padding: 0 0.6rem;
+      border-radius: 999px; background: var(--acc-soft); color: var(--acc);
+      font-weight: 700; text-decoration: none;
+    }
+    .step {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem 1.25rem;
+      margin-bottom: 1rem;
+      scroll-margin-top: 1rem;
+    }
+    .step h2 {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 1.2rem; margin: 0 0 0.5rem;
+    }
+    .num {
+      flex: none; display: inline-flex; align-items: center; justify-content: center;
+      width: 2.2rem; height: 2.2rem; border-radius: 50%;
+      background: var(--acc); color: #fff; font-size: 1.05rem;
+    }
+    .step p, .step ol, .step ul { margin: 0.4rem 0; }
+    .step ol, .step ul { padding-left: 1.25rem; }
+    .ui {
+      display: inline-block; padding: 0 0.4rem; border-radius: 0.3rem;
+      background: #eef0f6; border: 1px solid var(--line);
+      font-weight: 600; white-space: nowrap;
+    }
+    .pic {
+      display: block; width: 100%; max-width: 30rem; height: auto; margin: 0.9rem auto 0.25rem;
+      border-radius: 0.75rem; background: #f6f7fa; border: 1px solid var(--line);
+    }
+    .tip, .warn {
+      border-radius: 0.6rem; padding: 0.6rem 0.8rem; margin-top: 0.75rem; font-size: 0.95rem;
+    }
+    .tip { background: var(--acc-soft); }
+    .warn { background: #fbe9e7; color: #5c1a14; }
+    .done { border-color: var(--ok); }
+    .done .num { background: var(--ok); }
+    code { font-size: 0.9em; overflow-wrap: anywhere; }
+    @media (max-width: 480px) {
+      .step, .box { padding-left: 0.9rem; padding-right: 0.9rem; }
+      .pic { margin-left: -0.35rem; margin-right: -0.35rem; width: calc(100% + 0.7rem); }
+    }
+    footer { color: var(--mut); font-size: 0.9rem; text-align: center; padding: 1rem; }
+    a { color: var(--acc); }
+
+    /* drawings */
+    .pic text { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill: #3c4043; }
+    .pic .t-mut { fill: #80868b; }
+    .pic .t-acc { fill: var(--acc); font-weight: 700; }
+    .pic .t-wh { fill: #fff; font-weight: 600; }
+    .pic .t-b { font-weight: 600; }
+    .pic .hl { fill: var(--acc-soft); stroke: var(--acc); stroke-width: 2.5; }
+    .pic .card { fill: #fff; stroke: #dadce0; }
+    .pic .bar { fill: #e8eaed; }
+    .pic .line { stroke: #e3e5e8; }
+    .pic .code { fill: #d7dbe3; }
+    .pic .badge { fill: var(--acc); }
+  </style>
+</head>
+<body>
+<header>
+  <img src="img/logo.svg" alt="" />
+  <b>TapDarts</b>
+  <a href="./">Open the app</a>
+</header>
+
+<main>
+  <h1>Back up your stats to your own Google Sheet</h1>
+  <p class="lead">A one-off, 10-minute setup. Your darts stats are saved to a Google Sheet in your own Google Drive, and every device you use can sync with it.</p>
+
+  <div class="box">
+    <h2>Before you start</h2>
+    <ul>
+      <li>You need a Google account (the one you use for Gmail is fine).</li>
+      <li>Do this on a <b>computer</b>. Google's script editor is hard to use on a phone. Once it is set up, you can connect your phone in seconds with the QR code (step 12).</li>
+      <li>Keep TapDarts open in another tab. You will copy a script from it and paste a link back into it.</li>
+    </ul>
+    <div class="toc" aria-label="Jump to a step">
+      <a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a><a href="#s4">4</a><a href="#s5">5</a><a href="#s6">6</a><a href="#s7">7</a><a href="#s8">8</a><a href="#s9">9</a><a href="#s10">10</a><a href="#s11">11</a><a href="#s12">12</a><a href="#update">Update</a><a href="#help">Help</a>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <section class="step" id="s1">
+    <h2><span class="num">1</span>Create a new Google Sheet</h2>
+    <p>Go to <a href="https://sheets.new" target="_blank" rel="noopener">sheets.new</a> to make a blank spreadsheet. Click the title at the top left (it says <span class="ui">Untitled spreadsheet</span>) and give it a name, such as <b>My Darts</b>.</p>
+    <svg class="pic" viewBox="0 0 360 200" role="img" aria-label="A blank Google Sheet with its title box highlighted">
+      <rect class="card" x="10" y="10" width="340" height="180" rx="10"/>
+      <rect x="24" y="24" width="24" height="28" rx="4" fill="#1fa463"/>
+      <path d="M30 34h12M30 40h12M30 46h12M36 30v20" stroke="#fff" stroke-width="2"/>
+      <rect class="hl" x="56" y="22" width="132" height="30" rx="6"/>
+      <text x="66" y="42" font-size="15" class="t-b">My Darts</text>
+      <text x="56" y="70" font-size="12" class="t-mut">File  Edit  View  Insert  Format  Data  Tools  Extensions</text>
+      <rect class="bar" x="24" y="82" width="312" height="18" rx="4"/>
+      <g class="line" stroke-width="1">
+        <path d="M24 112h312M24 130h312M24 148h312M24 166h312M48 104v76M120 104v76M192 104v76M264 104v76"/>
+      </g>
+      <text x="200" y="42" font-size="12" class="t-acc">← type a name</text>
+    </svg>
+  </section>
+
+  <!-- 2 -->
+  <section class="step" id="s2">
+    <h2><span class="num">2</span>Open Apps Script</h2>
+    <p>In the menu, click <span class="ui">Extensions</span>, then <span class="ui">Apps Script</span>. A new tab opens with Google's script editor.</p>
+    <svg class="pic" viewBox="0 0 360 200" role="img" aria-label="The Extensions menu open with Apps Script highlighted">
+      <rect class="card" x="10" y="10" width="340" height="180" rx="10"/>
+      <text x="24" y="38" font-size="13" class="t-mut">Tools</text>
+      <text x="70" y="38" font-size="13" class="t-mut">Gemini</text>
+      <rect class="hl" x="124" y="20" width="86" height="28" rx="6"/>
+      <text x="134" y="39" font-size="13" class="t-b">Extensions</text>
+      <text x="222" y="38" font-size="13" class="t-mut">Help</text>
+      <rect class="card" x="124" y="56" width="200" height="124" rx="8"/>
+      <text x="144" y="82" font-size="13">Add-ons</text>
+      <text x="144" y="110" font-size="13">Macros</text>
+      <rect class="hl" x="130" y="120" width="188" height="28" rx="5"/>
+      <path d="M144 141l4-14 4 14M146 136h4" stroke="#ea4335" stroke-width="2" fill="none"/>
+      <text x="160" y="139" font-size="13" class="t-b">Apps Script</text>
+      <text x="144" y="168" font-size="13">AppSheet</text>
+    </svg>
+  </section>
+
+  <!-- 3 -->
+  <section class="step" id="s3">
+    <h2><span class="num">3</span>Paste the TapDarts script and save</h2>
+    <ol>
+      <li>In TapDarts, go to <span class="ui">Setup</span> and press <span class="ui">Copy script</span>.</li>
+      <li>Back in Apps Script, click in the code area, select everything that is already there (<b>Ctrl+A</b>, or <b>⌘A</b> on a Mac) and delete it.</li>
+      <li>Paste the TapDarts script (<b>Ctrl+V</b> or <b>⌘V</b>).</li>
+      <li>Click the <b>save</b> icon (a disk). <span class="ui">Unsaved changes</span> at the top changes to <span class="ui">Saved to Drive</span>.</li>
+    </ol>
+    <svg class="pic" viewBox="0 0 360 210" role="img" aria-label="The Apps Script editor with the code area and the save button highlighted">
+      <rect class="card" x="10" y="10" width="340" height="190" rx="10"/>
+      <text x="24" y="36" font-size="13" class="t-b">Apps Script</text>
+      <text x="112" y="36" font-size="13" class="t-mut">Untitled project</text>
+      <path d="M10 48h340" class="line"/>
+      <text x="24" y="70" font-size="12" class="t-b">Files</text>
+      <rect x="18" y="80" width="78" height="22" rx="4" fill="#e8f0fe"/>
+      <text x="26" y="95" font-size="12" fill="#1a73e8">Code.gs</text>
+      <path d="M104 48v152" class="line"/>
+      <text x="114" y="70" font-size="13" class="t-mut">↶ ↷</text>
+      <rect class="hl" x="146" y="54" width="28" height="24" rx="5"/>
+      <path d="M152 59h13l4 4v11h-17z M155 59v5h8v-5" fill="none" stroke="#3c4043" stroke-width="1.6"/>
+      <text x="204" y="71" font-size="12" class="t-mut">▷ Run   Debug</text>
+      <path d="M104 84h246" class="line"/>
+      <rect class="hl" x="112" y="92" width="228" height="98" rx="6" style="fill:none;stroke-dasharray:6 4"/>
+      <g class="code">
+        <rect x="122" y="102" width="96" height="7" rx="3"/><rect x="134" y="116" width="150" height="7" rx="3"/>
+        <rect x="134" y="130" width="120" height="7" rx="3"/><rect x="146" y="144" width="160" height="7" rx="3"/>
+        <rect x="134" y="158" width="90" height="7" rx="3"/><rect x="122" y="172" width="40" height="7" rx="3"/>
+      </g>
+      <circle class="badge" cx="186" cy="66" r="9"/><text x="182.5" y="70.5" font-size="12" class="t-wh">2</text>
+      <circle class="badge" cx="330" cy="100" r="9"/><text x="326.5" y="104.5" font-size="12" class="t-wh">1</text>
+    </svg>
+    <div class="tip">Paste over everything. If any of Google's sample code (<code>function myFunction() {}</code>) is left behind, the script will not work.</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="step" id="s4">
+    <h2><span class="num">4</span>Start a new deployment</h2>
+    <p>At the top right, click the blue <span class="ui">Deploy</span> button, then <span class="ui">New deployment</span>.</p>
+    <svg class="pic" viewBox="0 0 360 190" role="img" aria-label="The Deploy menu open with New deployment highlighted">
+      <rect class="card" x="10" y="10" width="340" height="170" rx="10"/>
+      <rect x="196" y="22" width="96" height="32" rx="6" fill="#1a73e8"/>
+      <text x="214" y="43" font-size="14" class="t-wh">Deploy ▾</text>
+      <circle cx="320" cy="38" r="12" fill="#e8eaed"/>
+      <rect class="card" x="150" y="62" width="186" height="108" rx="8"/>
+      <rect class="hl" x="156" y="70" width="174" height="30" rx="5"/>
+      <text x="168" y="90" font-size="14" class="t-b">New deployment</text>
+      <text x="168" y="124" font-size="14">Manage deployments</text>
+      <text x="168" y="156" font-size="14">Test deployments</text>
+    </svg>
+  </section>
+
+  <!-- 5 -->
+  <section class="step" id="s5">
+    <h2><span class="num">5</span>Choose "Web app"</h2>
+    <p>In the window that opens, click the <b>gear icon</b> next to <span class="ui">Select type</span>, then choose <span class="ui">Web app</span>.</p>
+    <svg class="pic" viewBox="0 0 360 200" role="img" aria-label="The New deployment window with the gear icon and Web app highlighted">
+      <rect class="card" x="10" y="10" width="340" height="180" rx="10"/>
+      <text x="24" y="38" font-size="15">New deployment</text>
+      <path d="M10 52h340M140 52v138" class="line"/>
+      <text x="24" y="76" font-size="13">Select type</text>
+      <circle class="hl" cx="118" cy="71" r="14"/>
+      <circle cx="118" cy="71" r="5" fill="none" stroke="#3c4043" stroke-width="2.2"/>
+      <circle cx="118" cy="71" r="8.5" fill="none" stroke="#3c4043" stroke-width="2" stroke-dasharray="3 2.6"/>
+      <text x="158" y="76" font-size="13">Configuration</text>
+      <rect class="card" x="104" y="92" width="150" height="90" rx="8"/>
+      <rect class="hl" x="110" y="98" width="138" height="26" rx="5"/>
+      <text x="124" y="116" font-size="13" class="t-b">Web app</text>
+      <text x="124" y="142" font-size="13" class="t-mut">API executable</text>
+      <text x="124" y="160" font-size="13" class="t-mut">Add-on</text>
+      <text x="124" y="176" font-size="13" class="t-mut">Library</text>
+      <circle class="badge" cx="140" cy="60" r="9"/><text x="136.5" y="64.5" font-size="12" class="t-wh">1</text>
+      <circle class="badge" cx="262" cy="111" r="9"/><text x="258.5" y="115.5" font-size="12" class="t-wh">2</text>
+    </svg>
+  </section>
+
+  <!-- 6 -->
+  <section class="step" id="s6">
+    <h2><span class="num">6</span>Set who can use it, then Deploy</h2>
+    <ul>
+      <li><b>Description:</b> anything you like, such as <b>TapDarts</b>.</li>
+      <li><b>Execute as:</b> <span class="ui">Me</span> (it shows your email address).</li>
+      <li><b>Who has access:</b> <span class="ui">Anyone</span>. This is the important one.</li>
+    </ul>
+    <p>Then click <span class="ui">Deploy</span> at the bottom right.</p>
+    <svg class="pic" viewBox="0 0 360 266" role="img" aria-label="Web app settings: Execute as Me, Who has access Anyone, and the Deploy button highlighted">
+      <rect class="card" x="10" y="10" width="340" height="246" rx="10"/>
+      <text x="24" y="36" font-size="15">New deployment</text>
+      <path d="M10 48h340" class="line"/>
+      <text x="24" y="70" font-size="12" class="t-mut">Description</text>
+      <rect x="24" y="76" width="312" height="30" rx="5" fill="none" stroke="#9aa0a6"/>
+      <text x="34" y="96" font-size="13">TapDarts</text>
+      <text x="24" y="124" font-size="12" class="t-mut">Execute as</text>
+      <rect x="24" y="130" width="312" height="30" rx="5" fill="none" stroke="#9aa0a6"/>
+      <text x="34" y="150" font-size="13">Me (you@gmail.com)</text><text x="318" y="150" font-size="12">▼</text>
+      <text x="24" y="178" font-size="12" class="t-acc">Who has access</text>
+      <rect class="hl" x="24" y="184" width="312" height="30" rx="5"/>
+      <text x="34" y="204" font-size="13" class="t-b">Anyone</text><text x="318" y="204" font-size="12">▼</text>
+      <rect x="252" y="222" width="84" height="28" rx="6" fill="#1a73e8" stroke="var(--acc)" stroke-width="2.5"/>
+      <text x="272" y="241" font-size="13" class="t-wh">Deploy</text>
+      <circle class="badge" cx="346" cy="198" r="9"/><text x="342.5" y="202.5" font-size="12" class="t-wh">1</text>
+      <circle class="badge" cx="240" cy="236" r="9"/><text x="236.5" y="240.5" font-size="12" class="t-wh">2</text>
+    </svg>
+    <div class="warn">If <b>Who has access</b> is anything other than <b>Anyone</b>, TapDarts cannot reach your Sheet and Sync will fail.</div>
+  </section>
+
+  <!-- 7 -->
+  <section class="step" id="s7">
+    <h2><span class="num">7</span>Authorise access</h2>
+    <p>Google asks you to allow the script to use your Sheet. Click <span class="ui">Authorise access</span>, then pick your Google account if asked.</p>
+    <svg class="pic" viewBox="0 0 360 150" role="img" aria-label="The Authorise access button highlighted">
+      <rect class="card" x="10" y="10" width="340" height="130" rx="10"/>
+      <text x="24" y="38" font-size="15">New deployment</text>
+      <path d="M10 50h340" class="line"/>
+      <text x="24" y="76" font-size="13">The web app requires you to authorise access to your data.</text>
+      <rect x="24" y="92" width="140" height="34" rx="6" fill="#1a73e8"/>
+      <rect class="hl" x="20" y="88" width="148" height="42" rx="8" style="fill:none"/>
+      <text x="40" y="114" font-size="14" class="t-wh">Authorise access</text>
+    </svg>
+  </section>
+
+  <!-- 8 -->
+  <section class="step" id="s8">
+    <h2><span class="num">8</span>Get past "Google hasn't verified this app"</h2>
+    <p>This warning is normal. The "app" is the script you just pasted into your own Sheet, and Google shows this for any script that hasn't been through its review.</p>
+    <ol>
+      <li>Click <span class="ui">Advanced</span> (small, at the bottom left).</li>
+      <li>Click <span class="ui">Go to Untitled project (unsafe)</span>.</li>
+    </ol>
+    <svg class="pic" viewBox="0 0 360 220" role="img" aria-label="The unverified app warning with Advanced and Go to Untitled project highlighted">
+      <rect class="card" x="10" y="10" width="340" height="200" rx="10"/>
+      <path d="M40 30l20 34h-40z" fill="#d93025"/>
+      <rect x="38.5" y="40" width="3" height="13" rx="1.5" fill="#fff"/><circle cx="40" cy="58" r="1.8" fill="#fff"/>
+      <text x="24" y="90" font-size="16">Google hasn’t verified this app</text>
+      <text x="24" y="110" font-size="12" class="t-mut">The app is requesting access to sensitive info in your</text>
+      <text x="24" y="124" font-size="12" class="t-mut">Google Account…</text>
+      <rect class="hl" x="18" y="136" width="76" height="24" rx="5"/>
+      <text x="26" y="153" font-size="12" text-decoration="underline">Advanced</text>
+      <rect x="230" y="136" width="106" height="26" rx="4" fill="#e8eaed"/>
+      <text x="240" y="153" font-size="12" class="t-mut">BACK TO SAFETY</text>
+      <rect class="hl" x="18" y="172" width="214" height="26" rx="5"/>
+      <text x="26" y="190" font-size="12" text-decoration="underline">Go to Untitled project (unsafe)</text>
+      <circle class="badge" cx="102" cy="148" r="9"/><text x="98.5" y="152.5" font-size="12" class="t-wh">1</text>
+      <circle class="badge" cx="240" cy="185" r="9"/><text x="236.5" y="189.5" font-size="12" class="t-wh">2</text>
+    </svg>
+    <div class="tip">The script only reads and writes this one spreadsheet, and only you can change it. If you named your Apps Script project, you will see that name instead of "Untitled project".</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="step" id="s9">
+    <h2><span class="num">9</span>Allow</h2>
+    <p>Google lists what the script can do (see and edit your spreadsheets). Scroll down if needed and click <span class="ui">Allow</span>. Some accounts show tick boxes first: tick them all, then <span class="ui">Continue</span>.</p>
+    <svg class="pic" viewBox="0 0 360 180" role="img" aria-label="The permissions screen with the Allow button highlighted">
+      <rect class="card" x="10" y="10" width="340" height="160" rx="10"/>
+      <text x="24" y="40" font-size="14">Untitled project wants to access</text>
+      <text x="24" y="58" font-size="14">your Google Account</text>
+      <circle cx="32" cy="88" r="8" fill="#1fa463"/>
+      <text x="48" y="92" font-size="12" class="t-mut">See, edit, create and delete your spreadsheets</text>
+      <path d="M10 108h340" class="line"/>
+      <rect x="164" y="122" width="78" height="32" rx="6" fill="none" stroke="#9aa0a6"/>
+      <text x="183" y="143" font-size="13" fill="#1a73e8">Cancel</text>
+      <rect x="252" y="122" width="84" height="32" rx="6" fill="#1a73e8"/>
+      <rect class="hl" x="248" y="118" width="92" height="40" rx="8" style="fill:none"/>
+      <text x="279" y="143" font-size="13" class="t-wh">Allow</text>
+    </svg>
+  </section>
+
+  <!-- 10 -->
+  <section class="step" id="s10">
+    <h2><span class="num">10</span>Copy the Web app URL</h2>
+    <p>You will see <span class="ui">Deployment successfully updated</span>. Under <b>Web app</b>, click <span class="ui">Copy</span> below the URL. It starts with <code>https://script.google.com/macros/s/</code> and ends with <code>/exec</code>. Then click <span class="ui">Done</span>.</p>
+    <svg class="pic" viewBox="0 0 360 200" role="img" aria-label="The finished deployment with the Web app URL Copy button highlighted">
+      <rect class="card" x="10" y="10" width="340" height="180" rx="10"/>
+      <text x="24" y="36" font-size="15">New deployment</text>
+      <path d="M10 48h340" class="line"/>
+      <text x="24" y="70" font-size="12" class="t-mut">Deployment successfully updated.</text>
+      <text x="24" y="98" font-size="13" class="t-b">Web app</text>
+      <text x="24" y="116" font-size="12" class="t-mut">URL</text>
+      <text x="24" y="134" font-size="12" fill="#1a73e8">https://script.google.com/macros/s/AKfy…/exec</text>
+      <rect class="hl" x="18" y="142" width="72" height="26" rx="5"/>
+      <rect x="28" y="149" width="9" height="11" rx="1.5" fill="none" stroke="#1a73e8" stroke-width="1.6"/>
+      <text x="44" y="160" font-size="13" fill="#1a73e8" font-weight="600">Copy</text>
+      <rect x="276" y="150" width="60" height="28" rx="6" fill="#1a73e8"/>
+      <text x="292" y="169" font-size="13" class="t-wh">Done</text>
+    </svg>
+    <div class="warn">Treat this link like a password. Anyone who has it can read your darts data and add rows to your Sheet.</div>
+  </section>
+
+  <!-- 11 -->
+  <section class="step done" id="s11">
+    <h2><span class="num">11</span>Paste it into TapDarts and sync</h2>
+    <p>In TapDarts, go to <span class="ui">Setup</span>, paste the link into the URL box, press <span class="ui">Save</span>, then <span class="ui">Sync now</span>. You should see <b>"Synced."</b> and your Sheet gets its worksheets (Visits, Mickey Mouse, Killer and Footy).</p>
+    <svg class="pic" viewBox="0 0 360 170" role="img" aria-label="TapDarts Setup with the URL box, Save and Sync now highlighted">
+      <rect class="card" x="10" y="10" width="340" height="150" rx="10"/>
+      <image href="img/logo.svg" x="22" y="20" width="24" height="24"/>
+      <text x="52" y="37" font-size="13" font-weight="800" font-style="italic">TapDarts</text>
+      <text x="146" y="37" font-size="12" class="t-mut">Play  Stats  History  Party</text>
+      <rect class="hl" x="300" y="22" width="44" height="22" rx="5"/>
+      <text x="306" y="37" font-size="12" class="t-b">Setup</text>
+      <path d="M10 54h340" class="line"/>
+      <rect class="hl" x="24" y="72" width="312" height="32" rx="6"/>
+      <text x="34" y="93" font-size="12">https://script.google.com/macros/s/…/exec</text>
+      <rect x="24" y="116" width="62" height="30" rx="6" fill="#fff" stroke="#c9cfda"/>
+      <text x="40" y="136" font-size="13" class="t-b">Save</text>
+      <rect x="96" y="116" width="96" height="30" rx="6" fill="#3f51d8"/>
+      <text x="112" y="136" font-size="13" class="t-wh">Sync now</text>
+      <circle class="badge" cx="336" cy="72" r="9"/><text x="332.5" y="76.5" font-size="12" class="t-wh">1</text>
+      <circle class="badge" cx="86" cy="116" r="9"/><text x="82.5" y="120.5" font-size="12" class="t-wh">2</text>
+      <circle class="badge" cx="192" cy="116" r="9"/><text x="188.5" y="120.5" font-size="12" class="t-wh">3</text>
+    </svg>
+    <div class="tip">That's it. TapDarts syncs on its own after each game. Press <b>Sync now</b> any time to pull in games from your other devices.</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="step" id="s12">
+    <h2><span class="num">12</span>Add your phone or another device</h2>
+    <p>On the device that is already set up, go to <span class="ui">Setup</span> and press <span class="ui">Show QR code</span>. Scan it with the other device's camera. TapDarts opens there with your Sheet already connected and syncs straight away.</p>
+    <svg class="pic" viewBox="0 0 360 170" role="img" aria-label="A QR code on a laptop being scanned by a phone">
+      <rect class="card" x="30" y="20" width="180" height="120" rx="8"/>
+      <rect x="20" y="140" width="200" height="10" rx="4" fill="#c9cfda"/>
+      <g fill="#1c2030">
+        <rect x="90" y="40" width="60" height="60" fill="#fff" stroke="#1c2030" stroke-width="2"/>
+        <rect x="95" y="45" width="16" height="16"/><rect x="129" y="45" width="16" height="16"/><rect x="95" y="79" width="16" height="16"/>
+        <rect x="117" y="67" width="6" height="6"/><rect x="129" y="79" width="6" height="6"/><rect x="139" y="89" width="6" height="6"/><rect x="117" y="89" width="6" height="6"/><rect x="129" y="67" width="6" height="6"/>
+      </g>
+      <text x="76" y="122" font-size="12" class="t-mut">Show QR code</text>
+      <rect x="250" y="30" width="74" height="130" rx="12" fill="#1c2030"/>
+      <rect x="256" y="42" width="62" height="104" rx="4" fill="#f6f7fa"/>
+      <rect class="hl" x="267" y="70" width="40" height="40" rx="4" style="fill:none"/>
+      <path d="M216 80h28" stroke="var(--acc)" stroke-width="2.5" stroke-dasharray="4 4"/>
+    </svg>
+    <div class="tip">Or do it by hand: paste the same link into Setup on the other device, then Save and Sync now.</div>
+  </section>
+
+  <!-- update -->
+  <section class="box" id="update">
+    <h2>When TapDarts asks you to update the script</h2>
+    <p>Sometimes a new version of TapDarts needs a newer script. Your link stays the same:</p>
+    <ol>
+      <li>Copy the script again from TapDarts <span class="ui">Setup</span>, paste it over the old one in Apps Script, and save.</li>
+      <li>Click <span class="ui">Deploy</span>, then <span class="ui">Manage deployments</span>.</li>
+      <li>Click the <b>pencil</b> (Edit) icon, set <b>Version</b> to <span class="ui">New version</span>, and click <span class="ui">Deploy</span>.</li>
+    </ol>
+  </section>
+
+  <!-- help -->
+  <section class="box" id="help">
+    <h2>If Sync doesn't work</h2>
+    <ul>
+      <li><b>"The URL returned a web page, not data"</b>: <b>Who has access</b> isn't set to <b>Anyone</b> (step 6), or the link isn't the one ending in <code>/exec</code>. Fix the setting, deploy a new version (see above) and try again.</li>
+      <li><b>"The script has no doGet/doPost"</b>: some of Google's sample code was left behind, or the paste was cut short. Redo step 3, then deploy a new version.</li>
+      <li><b>"Could not reach the URL"</b>: check you are online and that you pasted the whole link.</li>
+      <li><b>Nothing from your other device?</b> Press <b>Sync now</b> on that device first, so its games reach the Sheet, then Sync here.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>Your stats live in your own Google Drive, not on a TapDarts server.</footer>
+</body>
+</html>

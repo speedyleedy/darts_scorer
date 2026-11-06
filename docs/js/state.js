@@ -59,6 +59,8 @@ let G = null,
   SR = {},
   gt = '01',
   lives = 3,
+  kt = 'w' /* Killer target: 'w' whole wedge, 'd' doubles only */,
+  heal = true /* Killer: hit your own number to get lives back */,
   vpq = 3,
   need = 1;
 

@@ -100,10 +100,11 @@ function ftView() {
     .join('');
   const aim = G.done
     ? ''
-    : `<div class=choose><b>Quarter ${q + 1} of 4</b> <span class=mut>visit ${G.round + 1} of ${G.vpq}</span><div>Aim at <b>${t}</b> for a goal (6). Behinds on <b>${adj[0]}</b> and <b>${adj[1]}</b> (1 each). Doubles and trebles multiply.</div></div>`;
+    : `<div class="choose dsk"><b>Quarter ${q + 1} of 4</b> <span class=mut>visit ${G.round + 1} of ${G.vpq}</span><div>Aim at <b>${t}</b> for a goal (6). Behinds on <b>${adj[0]}</b> and <b>${adj[1]}</b> (1 each). Doubles and trebles multiply.</div></div>`;
   return shell(
     `<div class=sec style="overflow-x:auto"><table class=mmt><tr><th></th>${head}<th>Score</th></tr>${rows}</table></div>
     <div class=slots style="margin:8px 0">${[0, 1, 2].map((k) => (G.darts[k] ? dtag(G.darts[k]) : '<span class="dt e">·</span>')).join('')}</div>
+    ${G.done ? '<div class="hint mob"></div>' : `<div class="hint mob">Q${q + 1}, visit ${G.round + 1} of ${G.vpq}: aim at <b>${t}</b> for a goal, <b>${adj[0]}</b> or <b>${adj[1]}</b> for a behind</div>`}
     ${G.done ? winCard() : ''}<div class=mut>${esc(G.last)}</div>`,
     'Footy' + (G.teams ? ' · teams' : ''),
     G.done ? '' : turnBar() + aim,

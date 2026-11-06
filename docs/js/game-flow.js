@@ -41,6 +41,8 @@ function startGame() {
     type: gt,
     mode,
     lives,
+    kt,
+    heal,
     teams: T,
     roster: JSON.stringify(sides.map((x) => x.m)),
     pl: sides,
@@ -62,7 +64,7 @@ function startGame() {
   };
   hist = [];
   try {
-    localStorage.setItem('setup', JSON.stringify({ gt, fmt, mode, sel, teams, need, lives, vpq }));
+    localStorage.setItem('setup', JSON.stringify({ gt, fmt, mode, sel, teams, need, lives, kt, heal, vpq }));
   } catch (e) {}
   render();
   openCall();

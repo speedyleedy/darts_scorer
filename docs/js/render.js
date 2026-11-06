@@ -84,8 +84,14 @@ function render() {
     `<nav class=navbar><div class=container><span class=navbar-brand>${LOGO}TapDarts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${upd}${syncNag}${alertMsg || (url && queue.length >= 100) ? `<p class=alert>${esc(alertMsg || queue.length + ' visits are waiting to sync. Press Sync now in Setup.')}</p>` : ''}${note ? `<p class=mut>${esc(note)}</p>` : ''}${view === 'stats' ? stats() : view === 'history' ? history() : view === 'fun' ? funStats() : view === 'setup' ? setup() : G ? game() : lobby()}</main>`;
   document.body.classList.toggle('playing', view === 'play' && !!G);
   skin();
+  document.documentElement.style.setProperty('--navh', $('#app > nav').offsetHeight + 'px');
   const cur = document.querySelector('.playing .cards .pl.cur');
-  if (cur && matchMedia('(max-width: 767px)').matches) cur.scrollIntoView({ block: 'nearest' });
+  if (cur && matchMedia('(max-width: 767px)').matches) {
+    /* scroll the scoreboard, never the page */
+    const box = cur.parentElement.getBoundingClientRect(),
+      c = cur.getBoundingClientRect();
+    if (c.top < box.top || c.bottom > box.bottom) cur.parentElement.scrollTop += c.top - box.top;
+  }
   keepAwake(!!G && !G.done);
   if (view === 'stats') draw(SV);
 }

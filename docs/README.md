@@ -6,9 +6,10 @@ server and no sign-in, and keeps your stats in **your own Google Sheet** (option
 ## Run it
 
 - **Locally:** open `index.html` in Chrome, Edge or Safari. No install.
-- **On Cloudflare Pages:** run `./deploy.sh` from the repo root. It stamps `docs/version.txt` and deploys
-  `docs/` with Wrangler. Open copies of the app notice the new version when they come back on screen and
-  reload (or offer an Update button mid-game), so phones don't stay on an old version.
+- **On Cloudflare Pages:** run `./deploy.sh` from the repo root. It builds a copy of `docs/` (without
+  `sampleImages`), stamps a `version.txt` and a `?v=` on every script and stylesheet, and deploys it with
+  Wrangler. Open copies of the app notice the new version when they come back on screen and reload (or offer
+  an Update button mid-game), so phones don't stay on an old version.
 - **On GitHub Pages:** push this folder to a public repo, then Settings, Pages, deploy from the main
   branch. All links are relative, so it works under `https://<you>.github.io/<repo>/`.
 

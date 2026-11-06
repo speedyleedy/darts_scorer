@@ -20,7 +20,15 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') keepAwake(!!G && !G.done);
+  if (document.visibilityState === 'visible') {
+    keepAwake(!!G && !G.done);
+    checkVersion();
+  }
+});
+
+/* a page restored from the back/forward cache never re-runs boot */
+addEventListener('pageshow', (e) => {
+  if (e.persisted) checkVersion();
 });
 
 document.addEventListener('change', (e) => {

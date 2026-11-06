@@ -41,6 +41,7 @@ let players = LS('players') || [],
   fun = { mm: [], kl: [], ft: [] },
   fq = { mm: [], kl: [], ft: [] },
   alertMsg = '',
+  updateReady = false /* a new version is deployed (boot.js) */,
   DB = null;
 
 let G = null,

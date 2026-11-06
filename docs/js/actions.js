@@ -216,6 +216,9 @@ const A = {
     hist = [];
     render();
   },
+  reload() {
+    location.reload();
+  },
   nagoff() {
     put('nagOff', Date.now());
     render();

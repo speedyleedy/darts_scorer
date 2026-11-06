@@ -76,8 +76,12 @@ function render() {
     !synced && view !== 'setup' && !(G && !G.done) && !(Date.now() - (LS('nagOff') || 0) < 7 * 864e5)
       ? `<div class="alert d-flex flex-wrap gap-2 align-items-center" role=alert><span><b>${url ? 'Not synced yet.' : 'Not backed up.'}</b> ${url ? 'Your Google Sheet has not synced yet. Press Sync now in Setup so your stats are backed up.' : 'Your stats are only saved in this browser. Set up Google Sheets sync to back them up and share them between devices.'}</span><button class="dng ms-auto" data-a=tab data-v=setup>${url ? 'Go to Setup' : 'Set up sync'}</button><button type=button class=btn-close aria-label=Dismiss title="Hide for a week" data-a=nagoff></button></div>`
       : '';
+  const upd =
+    updateReady
+      ? '<div class="alert d-flex flex-wrap gap-2 align-items-center" role=status><span><b>New version available.</b> Your game is saved and carries on after the update.</span><button class="dng ms-auto" data-a=reload>Update now</button></div>'
+      : '';
   $('#app').innerHTML =
-    `<nav class=navbar><div class=container><span class=navbar-brand>${LOGO}TapDarts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${syncNag}${alertMsg || (url && queue.length >= 100) ? `<p class=alert>${esc(alertMsg || queue.length + ' visits are waiting to sync. Press Sync now in Setup.')}</p>` : ''}${note ? `<p class=mut>${esc(note)}</p>` : ''}${view === 'stats' ? stats() : view === 'history' ? history() : view === 'fun' ? funStats() : view === 'setup' ? setup() : G ? game() : lobby()}</main>`;
+    `<nav class=navbar><div class=container><span class=navbar-brand>${LOGO}TapDarts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${upd}${syncNag}${alertMsg || (url && queue.length >= 100) ? `<p class=alert>${esc(alertMsg || queue.length + ' visits are waiting to sync. Press Sync now in Setup.')}</p>` : ''}${note ? `<p class=mut>${esc(note)}</p>` : ''}${view === 'stats' ? stats() : view === 'history' ? history() : view === 'fun' ? funStats() : view === 'setup' ? setup() : G ? game() : lobby()}</main>`;
   document.body.classList.toggle('playing', view === 'play' && !!G);
   skin();
   const cur = document.querySelector('.playing .cards .pl.cur');

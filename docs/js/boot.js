@@ -102,4 +102,26 @@ let syncLink = false;
   }
 })();
 
+/* New versions: deploy.sh writes version.txt. Phones (iOS especially) often show a tab from memory
+   without reloading it, so check again whenever the page comes back on screen. A changed version
+   reloads straight away, or waits behind a button if a game is in progress (the game is saved and resumes). */
+let appVersion = null;
+
+async function checkVersion() {
+  if (location.protocol === 'file:' || updateReady) return;
+  try {
+    const r = await fetch('version.txt', { cache: 'no-store' }),
+      v = r.ok ? (await r.text()).trim() : '';
+    if (!/^[\w.:-]{1,64}$/.test(v)) return;
+    if (appVersion === null) appVersion = v;
+    else if (v !== appVersion) {
+      if (G && !G.done) {
+        updateReady = true;
+        render();
+      } else location.reload();
+    }
+  } catch (e) {}
+}
+
 boot();
+checkVersion();

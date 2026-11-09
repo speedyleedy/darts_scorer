@@ -3,7 +3,7 @@
  */
 
 function startGame() {
-  const T = fmt === 'teams' && gt !== 'kl';
+  const T = fmt === 'teams' && gt !== 'kl' && gt !== 'pr';
   let sides;
   if (T) {
     const ts = teams.filter((t) => t.m.length);
@@ -18,6 +18,14 @@ function startGame() {
       rem: mode,
     }));
   } else {
+    if (gt === 'pr' && sel.length !== 1) {
+      note = 'Practice is for one player. Select just you.';
+      return render();
+    }
+    if (gt === 'pr' && !prOn.length) {
+      note = 'Pick at least one drill for your routine.';
+      return render();
+    }
     if (sel.length < (gt === 'kl' ? 2 : 1)) {
       note = gt === 'kl' ? 'Killer needs at least two players.' : 'Select at least one player.';
       return render();
@@ -62,9 +70,13 @@ function startGame() {
     leg: 1,
     starter: 0,
   };
+  if (gt === 'pr') {
+    Object.assign(G, { steps: [...prOn], si: 0, min: prMin, res: [] });
+    prEnter();
+  }
   hist = [];
   try {
-    localStorage.setItem('setup', JSON.stringify({ gt, fmt, mode, sel, teams, need, lives, kt, heal, vpq }));
+    localStorage.setItem('setup', JSON.stringify({ gt, fmt, mode, sel, teams, need, lives, kt, heal, vpq, prOn, prMin }));
   } catch (e) {}
   render();
   openCall();

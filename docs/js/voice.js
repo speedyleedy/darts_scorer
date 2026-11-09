@@ -69,6 +69,7 @@ function turnCall() {
 }
 
 function openCall() {
+  if (G.type === 'pr') return; /* prEnter announces the first drill */
   if (G.type === 'kl') return say(whoNow() + ', pick your number');
   if (G.type === 'ft')
     return say('Quarter 1. Aim at ' + FT[0] + '.', multi() ? whoNow() + ' to throw' : '');

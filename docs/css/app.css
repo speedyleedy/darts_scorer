@@ -1299,3 +1299,135 @@ table.table th {
     font-size: clamp(1.1rem, min(6vw, 3.4svh), 1.6rem);
   }
 }
+
+/* ---- practice: the warm-up targets and the doubles clock take the board's place ---- */
+.prp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 18rem;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--bs-border-radius-lg);
+}
+.prbig {
+  font-size: clamp(3rem, 14vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.prseq {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0.375rem 0;
+}
+.prseq span {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  color: var(--mut);
+}
+.prseq .on {
+  border-color: var(--acc);
+  color: var(--ink);
+  font-weight: 700;
+}
+.prseq .dn {
+  text-decoration: line-through;
+}
+@media (max-width: 767px) {
+  .playing .panel > .prp {
+    grid-row: 2;
+    min-height: 0;
+    margin-top: 0.25rem;
+  }
+  .playing .cards .prseq {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0.25rem 0 0;
+  }
+  .playing .cards .prseq span {
+    white-space: nowrap;
+  }
+}
+
+/* ---- waiting players: one compact line each, so the thrower's card at the top always has the room ---- */
+.pl.sm {
+  gap: 0 0.75rem;
+  padding: 0.4rem 0.875rem;
+  margin-bottom: 0.4rem;
+  align-items: center;
+}
+.pl.sm h3 {
+  font-size: 0.9375rem;
+}
+.pl.sm .rm {
+  grid-row: 1/3;
+  align-self: center;
+}
+.pl.sm .rem {
+  font-size: 1.75rem;
+}
+.sml {
+  font-size: 0.8125rem;
+  color: var(--mut);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.cards > .pl:not(.sm) {
+  grid-column: 1/-1;
+}
+@media (max-width: 767px) {
+  .playing .pl.sm {
+    padding: 0.3rem 0.75rem;
+    margin-bottom: 0.3rem;
+  }
+  .playing .pl.sm h3 {
+    height: 1.2rem;
+    font-size: 0.875rem;
+  }
+  .playing .pl.sm .rem,
+  .playing .cards:has(.krem) .pl.sm .rem {
+    font-size: 1.5rem;
+  }
+  .playing .cards:has(.krem) .pl.sm > div:last-child {
+    font-size: 0.75rem !important;
+    letter-spacing: 0 !important;
+  }
+}
+
+/* ---- the thrower's name at the top of their card: "Your turn, Pete!" ---- */
+.pl h3 .yt {
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pl h3 .yt b {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 767px) {
+  .playing .pl.cur h3 {
+    height: 1.9rem;
+  }
+  .playing .pl h3 .yt b {
+    font-size: 1.375rem;
+  }
+  /* the card already says whose turn it is, so the board header leaves it out */
+  .playing .panel > .turn.dup {
+    visibility: hidden;
+  }
+}

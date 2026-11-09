@@ -104,11 +104,16 @@ function klView() {
     p = G.pl[G.cur],
     w = G.kt === 'w',
     tgt = (x) => (w ? '' : 'D') + x.num;
-  const cards = G.pl
-    .map(
-      (x, i) =>
-        `<div class="pl${i === G.cur && !G.done ? ' cur' : ''}" style="${x.alive ? '' : 'opacity:.4'}"><h3>${esc(x.name)}${x.killer ? '<span class=bdg style="color:var(--acc)">KILLER</span>' : ''}${x.alive ? '' : '<span class=bdg>Out</span>'}</h3><div class="rem krem">${x.num ? tgt(x) : '–'}</div><div style="letter-spacing:3px;font-size:18px">${'●'.repeat(x.lives)}<span class=mut>${'○'.repeat(G.lives - x.lives)}</span> <span class=mut style="letter-spacing:0;font-size:13px">${x.kills} kills</span></div></div>`,
-    )
+  /* the thrower's card first and full size; everyone else gets a one-line card */
+  const cards = byTurn()
+    .map((i) => {
+      const x = G.pl[i],
+        head = `<h3>${esc(x.name)}${x.killer ? '<span class=bdg style="color:var(--acc)">KILLER</span>' : ''}${x.alive ? '' : '<span class=bdg>Out</span>'}</h3>`,
+        lv = `${'●'.repeat(x.lives)}<span class=mut>${'○'.repeat(G.lives - x.lives)}</span>`;
+      return i === G.cur
+        ? `<div class="pl${G.done ? '' : ' cur'}" style="${x.alive ? '' : 'opacity:.4'}">${G.done ? head : head.replace(esc(x.name), yourTurn(x.name, pick ? 'Pick a number' : 'Your turn'))}<div class="rem krem">${x.num ? tgt(x) : '–'}</div><div style="letter-spacing:3px;font-size:18px">${lv} <span class=mut style="letter-spacing:0;font-size:13px">${x.kills} kills</span></div></div>`
+        : `<div class="pl sm" style="${x.alive ? '' : 'opacity:.4'}">${head}<div class=rm><div class=rem>${x.num ? tgt(x) : '–'}</div></div><div class=sml><span style="letter-spacing:2px">${lv}</span> · ${x.kills} kills</div></div>`;
+    })
     .join('');
   const tg = G.pl
     .filter((x) => x.alive && x !== p && x.num)
@@ -129,6 +134,6 @@ function klView() {
   return shell(
     `${cards}${G.msg ? `<div class="alert kmsg">${esc(G.msg)}</div>` : tip}${G.done ? winCard() : ''}`,
     'Killer · ' + G.lives + ' lives' + (w ? ' · whole wedge' : ' · doubles') + (G.heal ? ' · lives back' : ''),
-    G.done ? '' : turnBar(pick ? 'Pick a number' : 'Your turn'),
+    G.done ? '' : turnBar(pick ? 'Pick a number' : 'Your turn', 'dup'),
   );
 }

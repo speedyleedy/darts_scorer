@@ -38,8 +38,8 @@ let players = LS('players') || [],
   cursor = +LS('cursor') || 0,
   synced = !!LS('synced') || cursor > 0 /* a Sync with the current URL has worked */,
   curs = LS('curs') || {},
-  fun = { mm: [], kl: [], ft: [] },
-  fq = { mm: [], kl: [], ft: [] },
+  fun = { mm: [], kl: [], ft: [], pr: [] },
+  fq = { mm: [], kl: [], ft: [], pr: [] },
   alertMsg = '',
   updateReady = false /* a new version is deployed (boot.js) */,
   DB = null;
@@ -63,7 +63,9 @@ let G = null,
   kt = 'w' /* Killer target: 'w' whole wedge, 'd' doubles only */,
   heal = true /* Killer: hit your own number to get lives back */,
   vpq = 3,
-  need = 1;
+  need = 1,
+  prOn = ['warm', 't20', 'dbl', 'bed', 'down'] /* Practice: the drills in the routine */,
+  prMin = 10 /* Practice: minutes of doubles */;
 
 const WINT = {};
 

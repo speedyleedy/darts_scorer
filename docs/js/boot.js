@@ -5,9 +5,9 @@
 async function boot() {
   try {
     DB = await new Promise((res, rej) => {
-      const r = indexedDB.open('darts', 3);
+      const r = indexedDB.open('darts', 4);
       r.onupgradeneeded = () =>
-        ['visits', 'queue', 'mm', 'mmq', 'kl', 'klq', 'ft', 'ftq'].forEach((n) => {
+        ['visits', 'queue', 'mm', 'mmq', 'kl', 'klq', 'ft', 'ftq', 'pr', 'prq'].forEach((n) => {
           if (!r.result.objectStoreNames.contains(n))
             r.result.createObjectStore(n, { keyPath: 'id' });
         });
@@ -17,7 +17,7 @@ async function boot() {
     const [v, q] = await Promise.all([idbAll('visits'), idbAll('queue')]);
     visits = v;
     queue = q;
-    for (const t of ['mm', 'kl', 'ft']) {
+    for (const t of ['mm', 'kl', 'ft', 'pr']) {
       fun[t] = await idbAll(t);
       fq[t] = await idbAll(t + 'q');
     }
@@ -93,6 +93,8 @@ let syncLink = false;
     if (st.kt) kt = st.kt;
     if (st.heal !== undefined) heal = st.heal;
     vpq = st.vpq || 3;
+    if (Array.isArray(st.prOn)) prOn = st.prOn;
+    prMin = st.prMin || 10;
   }
   const g = LS('game');
   if (g && g.pl && !g.done) {

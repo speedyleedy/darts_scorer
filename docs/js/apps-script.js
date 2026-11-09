@@ -72,6 +72,10 @@ const SCRIPT = `var S = {
       'won',
     ],
   ],
+  pr: [
+    'Practice',
+    ['id', 'time', 'game', 'player', 'drill', 'target', 'darts', 'score'],
+  ],
 };
 
 function sh(k) {
@@ -121,7 +125,7 @@ function doGet(e) {
   var c = Math.min(l, n - a);
 
   return out({
-    v: 4,
+    v: 5,
     rows: c > 0 ? t.getRange(a + 2, 1, c, o.w).getValues() : [],
     total: n,
   });

@@ -65,6 +65,35 @@ const A = {
   mmgo() {
     if (G && G.type === 'mm' && G.darts.length) mmScore();
   },
+  prs(v) {
+    const on = prOn.includes(v) ? prOn.filter((x) => x !== v) : [...prOn, v];
+    prOn = PRS.map(([k]) => k).filter((k) => on.includes(k));
+    render();
+  },
+  prmin(v) {
+    prMin = +v;
+    render();
+  },
+  prnext() {
+    if (G && G.type === 'pr' && !G.done) prNext();
+  },
+  prwarm() {
+    G.wi++;
+    say('Nine darts at ' + (PRWARM[G.wi % 3][0] === 50 ? 'the bull' : PRWARM[G.wi % 3][0]) + '.');
+    render();
+  },
+  prclk() {
+    if (G.dEnd) {
+      G.dLeft = Math.max(0, G.dEnd - Date.now());
+      G.dEnd = 0;
+    } else G.dEnd = Date.now() + G.dLeft;
+    render();
+  },
+  prrst() {
+    G.dEnd = 0;
+    G.dLeft = G.min * 60000;
+    render();
+  },
   hp(v) {
     hp = v;
     render();
@@ -204,6 +233,10 @@ const A = {
     lives = G.lives;
     vpq = G.vpq || 3;
     need = G.need || 1;
+    if (G.type === 'pr') {
+      prOn = [...G.steps];
+      prMin = G.min;
+    }
     if (!G.teams) {
       sel = G.pl.map((q) => q.name);
       sel.push(sel.shift());

@@ -39,16 +39,26 @@ function card(q, i, c) {
     .slice(0, 1)
     .map((x) => `<span class=bdg>${x[0]} ×${x[1]}</span>`)
     .join('');
-  return `<div class="pl${cur ? ' cur' : ''}"><h3>${esc(q.name)}${G.need > 1 ? `<span class=bdg>Legs ${G.lw[i]}</span>` : ''}${G.teams ? `<span class=mem>${q.m.map((n, k) => `<span class="${cur && !G.done && k === q.mi ? 'now' : ''}">${esc(n)}</span>`).join('')}</span>` : ''}${G.done === q.name ? '<span class=bdg style="color:var(--db)">Winner</span>' : ''}${tons}</h3>
+  const badges = `${G.need > 1 ? `<span class=bdg>Legs ${G.lw[i]}</span>` : ''}${G.done === q.name ? '<span class=bdg style="color:var(--db)">Winner</span>' : ''}`;
+  /* everyone waiting gets a one-line card, so the thrower's card always has the room */
+  if (!cur)
+    return `<div class="pl sm"><h3>${esc(q.name)}${badges}</h3><div class=rm><div class=rem>${q.rem}</div></div><div class=sml>${G.teams ? esc(q.m[q.mi]) + ' next · ' : ''}Last ${lv ? (lv.bust ? 'bust' : lv.total) : '–'} · Avg ${f1(avg)}</div></div>`;
+  return `<div class="pl${cur ? ' cur' : ''}"><h3>${cur && !G.done && !G.legWon ? yourTurn(q.m[q.mi]) : esc(q.name)}${G.need > 1 ? `<span class=bdg>Legs ${G.lw[i]}</span>` : ''}${G.teams ? `<span class=mem>${q.m.map((n, k) => `<span class="${cur && !G.done && k === q.mi ? 'now' : ''}">${esc(n)}</span>`).join('')}</span>` : ''}${G.done === q.name ? '<span class=bdg style="color:var(--db)">Winner</span>' : ''}${tons}</h3>
   <div class=rm><div class="rem${on ? ' on' : ''}">${q.rem}</div></div>
   <div class=slots>${slots}${cur ? `<span class=vt>${G.darts.length ? t : ''}</span>` : ''}</div>
   ${on ? `<div class=fin><span class=mut>Finish</span>${c.map((d) => dtag(d)).join('<span class=mut>›</span>')}</div>` : ''}
   <div class=st><div><small>Average</small><b>${f1(avg)}</b>${dl == null ? '' : `<span class="dl ${dl >= 0 ? 'up' : 'dn'}">${dl >= 0 ? '▲' : '▼'} ${Math.abs(dl).toFixed(1)}</span>`}</div><div><small>First 9</small><b>${f1(mean(s.f9p, s.f9d))}</b></div><div><small>Darts</small><b>${s.dk}</b></div><div><small>Last visit</small>${lv ? (lv.bust ? '<b class=dn>Bust</b>' : `<b>${lv.total}</b>`) : '<b>–</b>'}</div></div></div>`;
 }
 
-const turnBar = (l) => {
+/* the thrower's card leads with their name, big enough to read from the oche */
+const yourTurn = (n, l = 'Your turn') => `<span class=yt>${l}, <b>${esc(n)}!</b></span>`;
+
+/* player indexes from the thrower round, so the thrower's card comes first and the rest follow in throwing order */
+const byTurn = () => G.pl.map((_, k) => (G.cur + k) % G.pl.length);
+
+const turnBar = (l, cls = '') => {
   const p = G.pl[G.cur];
-  return `<div class=turn><small>${l || 'Your turn'}</small><b>${esc(p.m[p.mi])}</b>${G.teams ? `<span class=mut>${esc(p.name)}</span>` : ''}</div>`;
+  return `<div class="turn ${cls}"><small>${l || 'Your turn'}</small><b>${esc(p.m[p.mi])}</b>${G.teams ? `<span class=mut>${esc(p.name)}</span>` : ''}</div>`;
 };
 
 const tot = () => G.type === '01' && entryMode === 'total';
@@ -61,10 +71,14 @@ const keypad = () => {
 
 /* extra: shown under the cards on wider screens; below: shown under the one-screen game area on phones */
 const shell = (left, sub, tb, extra = '', below = '') =>
-  `<div class="row g-3 g-lg-4${tot() ? ' tot' : ''}"><div class="col-lg-5"><div class=cards><h2 class=hd>Live match</h2>${left}</div>${extra ? `<div class=dsk>${extra}</div>` : ''}</div><div class="col-lg-7"><div class=panel><div class=lv><span class=live>Live</span><span class=mut>${sub}</span>${G.type === '01' ? `<div class="pills d-flex gap-1 ms-auto"><button data-a=em data-v=board class="${tot() ? '' : 'on'}">Board</button><button data-a=em data-v=total class="${tot() ? 'on' : ''}">Total</button></div>` : ''}${canSpeak() ? `<button data-a=voice class="${G.type === '01' ? '' : 'ms-auto'}${voiceOn ? ' on' : ''}">${voiceOn ? 'Voice on' : 'Voice off'}</button>` : ''}</div>${tb}${tot() ? keypad() : `<div class=bd>${BOARD}</div>`}${tot() ? '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button data-a=undo>Undo</button><button data-a=quit>End game</button></div>' : ctrls}</div></div></div>${below ? `<div class="mob mhist">${below}</div>` : ''}`;
+  `<div class="row g-3 g-lg-4${tot() ? ' tot' : ''}"><div class="col-lg-5"><div class=cards><h2 class=hd>Live match</h2>${left}</div>${extra ? `<div class=dsk>${extra}</div>` : ''}</div><div class="col-lg-7"><div class=panel><div class=lv><span class=live>Live</span><span class=mut>${sub}</span>${G.type === '01' ? `<div class="pills d-flex gap-1 ms-auto"><button data-a=em data-v=board class="${tot() ? '' : 'on'}">Board</button><button data-a=em data-v=total class="${tot() ? 'on' : ''}">Enter Manually</button></div>` : ''}${canSpeak() ? `<button data-a=voice class="${G.type === '01' ? '' : 'ms-auto'}${voiceOn ? ' on' : ''}">${voiceOn ? 'Voice on' : 'Voice off'}</button>` : ''}</div>${tb}${tot() ? keypad() : prOff() ? prPanel() : `<div class=bd>${BOARD}</div>`}${tot() || prOff() ? '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button data-a=undo>Undo</button><button data-a=quit>End game</button></div>' : G.type === 'pr' && !G.done && !G.stepDone ? prCtrls : ctrls}</div></div></div>${below ? `<div class="mob mhist">${below}</div>` : ''}`;
 
 const ctrls =
   '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button data-a=undo>Undo</button><button data-d="0">Miss</button><button data-a=quit>End game</button></div>';
+
+/* practice drills can be skipped without recording anything */
+const prCtrls =
+  '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button data-a=undo>Undo</button><button data-d="0">Miss</button><button data-a=prnext>Skip drill</button><button data-a=quit>End game</button></div>';
 
 const winCard = () =>
   `<div class="sec ovl"><b>${G.done === 'Draw' ? 'Drawn game' : esc(G.done) + ' wins!'}</b><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>`;
@@ -73,6 +87,7 @@ function game() {
   if (G.type === 'mm') return mmView();
   if (G.type === 'kl') return klView();
   if (G.type === 'ft') return ftView();
+  if (G.type === 'pr') return prView();
   const hx = visits
     .filter((v) => v.game === G.id)
     .slice(-8)
@@ -87,11 +102,13 @@ function game() {
     : '';
   const p = G.pl[G.cur],
     c = G.done ? null : co(p.rem, 3 - G.darts.length);
-  const left = G.pl.map((q, i) => card(q, i, c)).join(''),
+  const left = byTurn()
+      .map((i) => card(G.pl[i], i, c))
+      .join(''),
     who = p.m[p.mi],
     turn =
       G.pl.length > 1 || p.m.length > 1
-        ? `<div class=turn${G.done || G.legWon ? ' style="visibility:hidden"' : ''}><small>Your turn</small><b>${esc(who)}</b>${G.teams ? `<span class=mut>${esc(p.name)}</span>` : ''}</div>`
+        ? `<div class="turn dup"${G.done || G.legWon ? ' style="visibility:hidden"' : ''}><small>Your turn</small><b>${esc(who)}</b>${G.teams ? `<span class=mut>${esc(p.name)}</span>` : ''}</div>`
         : '',
     /* phones: the finish route sits on its own fixed line, so the cards never change height */
     mfin = `<div class=mfin>${c ? `<span class=mut>Finish</span>${c.map((d) => dtag(d)).join('<span class=mut>›</span>')}` : ''}</div>`;

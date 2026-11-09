@@ -7,6 +7,7 @@ function thr(d) {
   if (G.type === 'mm') return mmThr(d);
   if (G.type === 'kl') return klThr(d);
   if (G.type === 'ft') return ftThr(d);
+  if (G.type === 'pr') return prThr(d);
   const h = { G: JSON.parse(JSON.stringify(G)), added: [] };
   hist.push(h);
   const p = G.pl[G.cur],

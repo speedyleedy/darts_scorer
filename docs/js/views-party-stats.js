@@ -1,5 +1,5 @@
 /**
- * The Party tab: stats for Mickey Mouse, Killer and Footy.
+ * The Party tab: stats for Mickey Mouse, Killer, Footy and Practice.
  */
 
 function funStats() {
@@ -57,5 +57,9 @@ function funStats() {
         `<tr><td>${esc(n)}</td><td>${o.g}</td><td>${wn(o.w)}</td><td>${pc(o.w, o.g)}</td><td>${fx(o.c, o.g)}</td><td>${fx(o.a, o.g)}</td><td>${fx(o.b, o.g)}</td></tr>`,
     ),
   )}</div>
+  <div class=sec><h4>Practice</h4>${
+    [...new Set(fun.pr.map((r) => r.player))].map(prBoard).join('') ||
+    '<span class=mut>No practice recorded yet.</span>'
+  }<p class=mut style="font-size:13px">30 at 20 and 3 in a bed: higher is better. 10 down: darts to reach 0, lower is better, kept apart for each number.</p></div>
   <p class=mut style="font-size:13px">Party games are tracked apart from your practice stats, in their own worksheets. Only finished games are recorded.</p>`;
 }

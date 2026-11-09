@@ -1,6 +1,6 @@
 # TapDarts
 
-A darts scorer for 01 games, Mickey Mouse, Killer and Footy. It runs entirely in the browser, needs no
+A darts scorer for 01 games, Mickey Mouse, Killer and Footy, plus a Practice mode that tracks your routine. It runs entirely in the browser, needs no
 server and no sign-in, and keeps your stats in **your own Google Sheet** (optional).
 
 ## Run it
@@ -39,6 +39,7 @@ js/                   the app, one job per file (see below)
 | `game-flow.js` | start and undo, for every game type |
 | `game-01.js` | 01 games: dart by dart, total entry, legs |
 | `game-mickey-mouse.js`, `game-killer.js`, `game-footy.js` | one file per party game |
+| `game-practice.js` | Practice mode: warm-up, 30 at 20, doubles countdown, 3 in a bed, 10 down |
 | `sync.js` | sync with the Sheet, CSV export |
 | `views-*.js` | one file per screen: play, lobby, stats, history, party stats, setup |
 | `render.js` | draws the page, applies the Bootstrap classes |
@@ -63,7 +64,7 @@ above it at load time, and anything at all once the page has loaded.
 ## Data
 
 Everything is stored in the browser (IndexedDB and localStorage) and, if you set it up, in a Google Sheet
-with one worksheet per kind of game: Visits, Mickey Mouse, Killer and Footy. The Sheet is the master copy.
+with one worksheet per kind of game: Visits, Mickey Mouse, Killer, Footy and Practice. The Sheet is the master copy.
 Local data is per address: a new browser or a new address starts empty and refills on the first Sync.
 
 ## Third-party code

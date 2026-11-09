@@ -5,7 +5,9 @@
 const gameOpts = () =>
   gt === '01'
     ? `<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0">${[301, 501, 701].map((m) => `<button data-a=mode data-v=${m} class="${mode === m ? 'on' : ''}">${m}</button>`).join('')}<input id=cm type=number min=2 max=9999 placeholder="Custom" value="${[301, 501, 701].includes(mode) ? '' : mode}" style="width:7rem"><button data-a=cust>Use</button></div><p class=lobby-note>Starts on ${mode}. Double out.</p><h4 style="margin-top:1.25rem">Match</h4><div class="d-flex flex-wrap gap-2 align-items-center"><span class=mut>First to</span>${[1, 2, 3, 5].map((n) => `<button data-a=need data-v=${n} class="${need === n ? 'on' : ''}">${n}</button>`).join('')}<span class=mut>leg${need > 1 ? 's' : ''}</span></div>`
-    : gt === 'mm'
+    : gt === 'pr'
+      ? prOpts()
+      : gt === 'mm'
       ? '<p class=mut>Close 20 down to 12, any three doubles, any three trebles, three lots of 3 in a bed and the bull. Each needs three hits: a double counts as two and a treble as three. Throw all three darts, then choose where they go: a double or treble of 12 to 20 goes either to its number or as one hit on Doubles or Trebles. 3 in a bed is all three darts in the same bed (any mix of singles, doubles and trebles, or the bull) and takes all three darts for one hit. First side to close everything wins. Teams share a scoreboard.</p>'
       : gt === 'ft'
         ? `<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Visits per quarter</span>${[1, 2, 3, 5].map((n) => `<button data-a=vpq data-v=${n} class="${vpq === n ? 'on' : ''}">${n}</button>`).join('')}</div><p class=mut>Four quarters, aiming at 6, then 3, then 11, then 20. Hit the target for a goal (6 points) or a neighbouring number for a behind (1 point). Doubles and trebles multiply both. Highest total after four quarters wins. Teams share a score.</p>`
@@ -18,10 +20,22 @@ const gameOpts = () =>
             : 'Hit your own double to become a killer, then hit other players\' doubles to take their lives, one per hit.'
         }${heal ? ` Hitting your own ${kt === 'w' ? 'wedge' : 'double'} also wins back lives you have lost${kt === 'w' ? ' (a double two, a treble three)' : ''}, up to ${lives}.` : ''} Last player standing wins.</p>`;
 
+/* Practice: pick the drills, the doubles time, and see the numbers to beat */
+function prOpts() {
+  const who = sel.length === 1 ? sel[0] : null;
+  return `<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Routine</span>${PRS.map(([k, l]) => `<button data-a=prs data-v=${k} class="${prOn.includes(k) ? 'on' : ''}">${l}</button>`).join('')}</div>${
+    prOn.includes('dbl')
+      ? `<div class="d-flex flex-wrap gap-2 align-items-center" style="margin:10px 0"><span class=mut>Doubles</span>${[5, 10, 15].map((n) => `<button data-a=prmin data-v=${n} class="${prMin === n ? 'on' : ''}">${n} min</button>`).join('')}</div>`
+      : ''
+  }<p class=mut>Warm-up: 9 darts at 20, the bull and 19, as many times round as you like. 30 at 20: 1 point per dart in the 20. Doubles: a countdown while you practise doubles of your choice. 3 in a bed: three numbers picked for you, one at a time, 3 darts each, 1 point a hit and 2 for the treble. 10 down: pick a number and start on 10, a hit takes 1 off and a miss adds 1, get to 0 in as few darts as you can. Warm-up and doubles are not recorded.</p>${
+    who ? prBoard(who) : '<p class=lobby-note>Select one player to practise.</p>'
+  }`;
+}
+
 const tn = (t, i) => t.name.trim() || t.m.join(' & ') || 'Team ' + (i + 1);
 
 function lobby() {
-  const T = fmt === 'teams' && gt !== 'kl',
+  const T = fmt === 'teams' && gt !== 'kl' && gt !== 'pr',
     inT = (n) => teams.findIndex((t) => t.m.includes(n));
   const chips =
     players
@@ -44,10 +58,11 @@ function lobby() {
     ['mm', 'Mickey Mouse'],
     ['kl', 'Killer'],
     ['ft', 'Footy'],
+    ['pr', 'Practice'],
   ]
     .map(([k, l]) => `<button data-a=gt data-v=${k} class="${gt === k ? 'on' : ''}">${l}</button>`)
     .join('')}</div>
-    ${gt === 'kl' ? '' : `<div class="d-flex flex-wrap gap-2 mb-3"><button data-a=fmt data-v=solo class="${T ? '' : 'on'}">Individual</button><button data-a=fmt data-v=teams class="${T ? 'on' : ''}">Teams</button></div>`}
+    ${gt === 'kl' || gt === 'pr' ? '' : `<div class="d-flex flex-wrap gap-2 mb-3"><button data-a=fmt data-v=solo class="${T ? '' : 'on'}">Individual</button><button data-a=fmt data-v=teams class="${T ? 'on' : ''}">Teams</button></div>`}
     <h4>Options</h4>${gameOpts()}</div>
   <div class="col-lg-6"><h4>Players <span class="mut fw-normal">${T ? 'tap to add to the highlighted team' : 'the number is the order of play'}</span></h4><div class="d-flex flex-wrap gap-2 mb-3">${chips}</div>
     <div class="d-flex gap-2"><input id=np placeholder="New player name" style="max-width:22rem"><button data-a=addp>Add player</button></div>

@@ -3,6 +3,21 @@
  */
 
 const FUN = {
+  pr: {
+    v: 5,
+    name: 'Practice',
+    to: (r) => [r.id, r.time, r.game, r.player, r.drill, r.target, r.darts, r.score],
+    from: (a) => ({
+      id: String(a[0]),
+      time: a[1],
+      game: a[2],
+      player: String(a[3]),
+      drill: String(a[4]),
+      target: String(a[5]),
+      darts: +a[6],
+      score: +a[7],
+    }),
+  },
   ft: {
     v: 4,
     name: 'Footy',

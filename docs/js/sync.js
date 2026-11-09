@@ -96,7 +96,7 @@ async function sync() {
       cursor = j.total === undefined ? j.rows.length : Math.min(cursor + j.rows.length, j.total);
       persist();
     } while (j.total !== undefined && cursor < j.total && j.rows.length);
-    for (const t of ['mm', 'kl', 'ft']) await syncFun(t, call);
+    for (const t of ['mm', 'kl', 'ft', 'pr']) await syncFun(t, call);
     visits.sort(byTime);
     rebuildWin();
     players = [...new Set([...players, ...visits.map((v) => v.player)])];

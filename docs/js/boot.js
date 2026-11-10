@@ -57,6 +57,7 @@ async function boot() {
       'This browser is not letting the app save data, so visits will be lost when you close the page. Press Sync now after every game.';
   }
   rebuildWin();
+  newsInit();
   render();
   if (syncLink) sync();
 }

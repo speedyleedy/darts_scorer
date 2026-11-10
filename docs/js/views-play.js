@@ -69,16 +69,20 @@ const keypad = () => {
   return `<div class=kpw><div class=kd>${KP || '<span class=mut>Score</span>'}</div><div class=kg>${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button data-a=kd data-v=${n}>${n}</button>`).join('')}<button data-a=kb aria-label="Delete">⌫</button><button data-a=kd data-v=0>0</button><button class=pri data-a=ke>Enter</button></div><div class=kq>${[26, 41, 45, 60, 85, 100, 140, 180].map((n) => `<button data-a=kq data-v=${n}>${n}</button>`).join('')}</div><p class=mut style="font-size:.8rem;margin:.6rem 0 0;text-align:center">Total entry skips dart-by-dart stats such as doubles and the heat map.</p></div>`;
 };
 
+/* phones: Manual and Voice sit in the board's empty top-right corner, so the header row can go */
+const corners = () =>
+  `<div class="cnr tr">${G.type === '01' ? '<button data-a=em data-v=total>Manual</button>' : ''}${canSpeak() ? `<button data-a=voice class="${voiceOn ? 'on' : ''}" aria-pressed=${voiceOn}>Voice</button>` : ''}</div>`;
+
+/* the board's buttons, above it: beside the thrower's name on wider screens, a full-width row on phones.
+   Practice drills can be skipped without recording anything. */
+const ctl = () =>
+  `<div class="ctl d-flex flex-wrap gap-2 align-items-center"><button data-a=undo>Undo</button><button data-d="0">Miss</button>${G.type === 'pr' && !G.done && !G.stepDone ? '<button data-a=prnext>Skip drill</button>' : ''}<button data-a=quitc>End game</button></div>`;
+
 /* extra: shown under the cards on wider screens; below: shown under the one-screen game area on phones */
-const shell = (left, sub, tb, extra = '', below = '') =>
-  `<div class="row g-3 g-lg-4${tot() ? ' tot' : ''}"><div class="col-lg-5"><div class=cards><h2 class=hd>Live match</h2>${left}</div>${extra ? `<div class=dsk>${extra}</div>` : ''}</div><div class="col-lg-7"><div class=panel><div class=lv><span class=live>Live</span><span class=mut>${sub}</span>${G.type === '01' ? `<div class="pills d-flex gap-1 ms-auto"><button data-a=em data-v=board class="${tot() ? '' : 'on'}">Board</button><button data-a=em data-v=total class="${tot() ? 'on' : ''}">Enter Manually</button></div>` : ''}${canSpeak() ? `<button data-a=voice class="${G.type === '01' ? '' : 'ms-auto'}${voiceOn ? ' on' : ''}">${voiceOn ? 'Voice on' : 'Voice off'}</button>` : ''}</div>${tb}${tot() ? keypad() : prOff() ? prPanel() : `<div class=bd>${BOARD}</div>`}${tot() || prOff() ? '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button data-a=undo>Undo</button><button data-a=quit>End game</button></div>' : G.type === 'pr' && !G.done && !G.stepDone ? prCtrls : ctrls}</div></div></div>${below ? `<div class="mob mhist">${below}</div>` : ''}`;
-
-const ctrls =
-  '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button data-a=undo>Undo</button><button data-d="0">Miss</button><button data-a=quit>End game</button></div>';
-
-/* practice drills can be skipped without recording anything */
-const prCtrls =
-  '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button data-a=undo>Undo</button><button data-d="0">Miss</button><button data-a=prnext>Skip drill</button><button data-a=quit>End game</button></div>';
+const shell = (left, sub, tb, extra = '', below = '') => {
+  const bd = !tot() && !prOff();
+  return `<div class="row g-3 g-lg-4${tot() ? ' tot' : ''}"><div class="col-lg-5"><div class=cards><h2 class=hd>Live match</h2>${left}</div>${extra ? `<div class=dsk>${extra}</div>` : ''}</div><div class="col-lg-7"><div class="panel${bd ? ' bdon' : ''}"><div class=lv><span class=live>Live</span><span class=mut>${sub}</span>${G.type === '01' ? `<div class="pills d-flex gap-1 ms-auto"><button data-a=em data-v=board class="${tot() ? '' : 'on'}">Board</button><button data-a=em data-v=total class="${tot() ? 'on' : ''}">Enter Manually</button></div>` : ''}${canSpeak() ? `<button data-a=voice class="${G.type === '01' ? '' : 'ms-auto'}${voiceOn ? ' on' : ''}">${voiceOn ? 'Voice on' : 'Voice off'}</button>` : ''}</div>${tb}${tot() ? keypad() : bd ? `${ctl()}<div class=bd>${BOARD}${corners()}</div>` : prPanel()}${bd ? '' : '<div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:.5rem"><button data-a=undo>Undo</button><button data-a=quit>End game</button></div>'}</div></div></div>${below ? `<div class="mob mhist">${below}</div>` : ''}`;
+};
 
 const winCard = () =>
   `<div class="sec ovl"><b>${G.done === 'Draw' ? 'Drawn game' : esc(G.done) + ' wins!'}</b><div class="d-flex flex-wrap gap-2 align-items-center" style="margin-top:8px"><button class=pri data-a=again>Rematch</button><button data-a=quit>New game</button></div></div>`;

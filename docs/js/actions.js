@@ -94,6 +94,16 @@ const A = {
     G.dLeft = G.min * 60000;
     render();
   },
+  newsok() {
+    newsSeen();
+    render();
+  },
+  newsup() {
+    newsSeen();
+    view = 'setup';
+    note = '';
+    render();
+  },
   hp(v) {
     hp = v;
     render();
@@ -243,6 +253,11 @@ const A = {
     } else teams.push(teams.shift());
     mode = G.mode;
     startGame();
+  },
+  /* End game during play sits right by the board, so it asks first */
+  quitc() {
+    if (G && !G.done && !confirm('End this game?')) return;
+    A.quit();
   },
   quit() {
     G = null;

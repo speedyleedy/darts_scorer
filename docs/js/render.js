@@ -22,7 +22,7 @@ function skin() {
             : 'btn-outline-secondary',
     );
     if (b.matches('[data-a=start]')) c.add('btn-lg', 'w-100');
-    if (b.closest('.mm,.tm,.lv,.kq')) c.add('btn-sm');
+    if (b.closest('.mm,.tm,.lv,.kq,.cnr')) c.add('btn-sm');
     if (b.closest('.pills')) c.add('btn-sm', 'rounded-pill');
   });
   a.querySelectorAll('input').forEach((i) => i.classList.add('form-control'));
@@ -81,7 +81,7 @@ function render() {
       ? '<div class="alert d-flex flex-wrap gap-2 align-items-center" role=status><span><b>New version available.</b> Your game is saved and carries on after the update.</span><button class="dng ms-auto" data-a=reload>Update now</button></div>'
       : '';
   $('#app').innerHTML =
-    `<nav class=navbar><div class=container><span class=navbar-brand>${LOGO}TapDarts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${upd}${syncNag}${alertMsg || (url && queue.length >= 100) ? `<p class=alert>${esc(alertMsg || queue.length + ' visits are waiting to sync. Press Sync now in Setup.')}</p>` : ''}${note ? `<p class=mut>${esc(note)}</p>` : ''}${view === 'stats' ? stats() : view === 'history' ? history() : view === 'fun' ? funStats() : view === 'setup' ? setup() : G ? game() : lobby()}</main>`;
+    `<nav class=navbar><div class=container><span class=navbar-brand>${LOGO}TapDarts</span><ul class=nav>${tabs}</ul></div></nav><main class="container shell">${upd}${syncNag}${alertMsg || (url && queue.length >= 100) ? `<p class=alert>${esc(alertMsg || queue.length + ' visits are waiting to sync. Press Sync now in Setup.')}</p>` : ''}${note ? `<p class=mut>${esc(note)}</p>` : ''}${view === 'stats' ? stats() : view === 'history' ? history() : view === 'fun' ? funStats() : view === 'setup' ? setup() : G ? game() : lobby()}</main>${news()}`;
   document.body.classList.toggle('playing', view === 'play' && !!G);
   skin();
   document.documentElement.style.setProperty('--navh', $('#app > nav').offsetHeight + 'px');

@@ -48,6 +48,10 @@ if (canSpeak())
   };
 
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && newsOpen()) {
+    A.newsok();
+    return;
+  }
   if (e.key === 'Enter' && e.target.id === 'np') {
     A.addp();
     return;

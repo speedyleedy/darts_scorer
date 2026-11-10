@@ -14,26 +14,28 @@ const arc = (r1, r2, a1, a2) => {
 
 function board() {
   let h =
-    '<svg viewBox="-240 -240 480 480" style="width:100%;max-width:520px"><rect class="seg" x="-240" y="-240" width="480" height="480" fill="transparent" data-d="0" style="stroke:none;filter:none"/><circle r="232" fill="#111" data-d="0"/>';
+    '<svg viewBox="-222 -222 444 444" style="width:100%;max-width:520px"><rect class="seg" x="-222" y="-222" width="444" height="444" fill="transparent" data-d="0" style="stroke:none;filter:none"/><circle r="222" fill="#111" data-d="0"/>';
   ORDER.forEach((n, i) => {
     const a1 = i * 18 - 9,
       a2 = i * 18 + 9,
       c = i % 2 ? ['#efe3bf', '#2a9d5c'] : ['#1b1b1b', '#d33'];
-    /* not to scale: trebles, doubles and the bull are wider than a real board so they are easy to tap */
+    /* not to scale: trebles, doubles and the bull are wider than a real board so they are easy to tap,
+       and the singles stay big enough to hit too */
     [
-      [34, 90, 'S', c[0]],
-      [90, 126, 'T', c[1]],
-      [126, 162, 'S', c[0]],
-      [162, 198, 'D', c[1]],
+      [28, 80, 'S', c[0]],
+      [80, 120, 'T', c[1]],
+      [120, 156, 'S', c[0]],
+      [156, 198, 'D', c[1]],
     ].forEach(([r1, r2, t, f]) => {
       h += `<path class="seg" d="${arc(r1, r2, a1, a2)}" fill="${f}" data-d="${t}${n}"/>`;
     });
-    const [x, y] = P(216, i * 18);
-    h += `<text x="${x}" y="${y + 6}" text-anchor="middle" fill="#fff" font-size="18" font-weight="600" style="pointer-events:none">${n}</text>`;
+    /* the numbers sit in a thin ring, so the scoring area fills as much of the board as it can */
+    const [x, y] = P(210, i * 18);
+    h += `<text x="${x}" y="${y + 6}" text-anchor="middle" fill="#fff" font-size="17" font-weight="600" style="pointer-events:none">${n}</text>`;
   });
   return (
     h +
-    '<circle class="seg" r="34" fill="#2a9d5c" data-d="25"/><circle class="seg" r="16" fill="#d33" data-d="50"/></svg>'
+    '<circle class="seg" r="28" fill="#2a9d5c" data-d="25"/><circle class="seg" r="14" fill="#d33" data-d="50"/></svg>'
   );
 }
 

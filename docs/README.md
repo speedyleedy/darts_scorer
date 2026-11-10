@@ -40,6 +40,7 @@ js/                   the app, one job per file (see below)
 | `game-01.js` | 01 games: dart by dart, total entry, legs |
 | `game-mickey-mouse.js`, `game-killer.js`, `game-footy.js` | one file per party game |
 | `game-practice.js` | Practice mode: warm-up, 30 at 20, doubles countdown, 3 in a bed, 10 down |
+| `views-news.js` | the What's new popup, shown once per release |
 | `sync.js` | sync with the Sheet, CSV export |
 | `views-*.js` | one file per screen: play, lobby, stats, history, party stats, setup |
 | `render.js` | draws the page, applies the Bootstrap classes |
@@ -57,6 +58,9 @@ above it at load time, and anything at all once the page has loaded.
 - **A new game:** add `js/game-yourgame.js` with a `yourgameThr` and a `yourgameView`, then add it to
   `startGame` (`game-flow.js`), the type routing in `thr` (`game-01.js`) and `game` (`views-play.js`),
   the tiles in `views-lobby.js`, and a script tag in `index.html` before `sync.js`.
+- **Announcing a release:** add an entry at the top of `NEWS` in `js/views-news.js` with a new `id`. Everyone
+  sees it once, the next time they open the app (never mid-game). Set `script: true` if the release changes the
+  Sheet script, and people who sync get the update steps and a button to Setup.
 - **The Sheet script:** edit `js/apps-script.js`. After changing it, paste the new text into Apps Script
   and deploy a **New version**. Keep it free of backticks and `${}`.
 - **Sheet columns:** `HEAD`, `toRow`, `fromRow` in `sync.js`, and the matching lists in `apps-script.js`.
